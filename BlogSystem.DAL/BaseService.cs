@@ -76,15 +76,7 @@ namespace BlogSystem.DAL
         public IQueryable<T> GetAllOrderAsync(bool asc = true)
         {
             var datas = GetAllAsync();
-            //if (asc)
-            //{
-            //    datas = datas.OrderBy(m => m.CreateTime);
-            //}
-            //else
-            //{
-            //    datas = datas.OrderByDescending(m => m.CreateTime);
-            //}
-            //优化
+            
             datas = asc ? datas.OrderBy(m => m.CreateTime) : datas.OrderByDescending(m => m.CreateTime);
             return datas;
         }

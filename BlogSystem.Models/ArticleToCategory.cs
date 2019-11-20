@@ -1,23 +1,17 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace BlogSystem.Models
 {
-    public class Article : BaseEntity
+    public class ArticleToCategory : BaseEntity
     {
-        /// <summary>
-        /// 文章表
-        /// </summary>
-        [Required]
-        public string Title { get; set; }
-        [Column(TypeName = "ntext"), Required]
-        public string Content { get; set; }
+        [ForeignKey(nameof(BlogCategory))]
+        public Guid BlogCategoryId { get; set; }
+        public BlogCategory BlogCategory { get; set; }
 
-        public Guid UserId { get; set; }
-        public User User { get; set; }
-        public int GoodConut { get; set; }
 
-        public int BadCount { get; set; }
+        [ForeignKey(nameof(Article))]
+        public Guid ArticleId { get; set; }
+        public Article Article { get; set; }
 
 
     }

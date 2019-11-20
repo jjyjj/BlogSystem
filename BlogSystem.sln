@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSystem.DAL", "BlogSyste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSystem.IBLL", "BlogSystem.IBLL\BlogSystem.IBLL.csproj", "{7B084FBD-2A17-433E-BA57-1A526BF22D19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSystem.DTO", "BlogSystem.DTO\BlogSystem.DTO.csproj", "{EF7D0652-81F3-4755-B659-0D349ADBC8E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSystem.Dto", "BlogSystem.DTO\BlogSystem.Dto.csproj", "{EF7D0652-81F3-4755-B659-0D349ADBC8E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSystem.BLL", "BlogSystem.BLL\BlogSystem.BLL.csproj", "{AEEF90C6-1EDE-436D-99F4-92FCA7487904}"
 EndProject

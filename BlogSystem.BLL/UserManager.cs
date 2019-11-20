@@ -1,4 +1,4 @@
-﻿using BlogSystem.DTO;
+﻿using BlogSystem.Dto;
 using BlogSystem.IBLL;
 using BlogSystem.Models;
 using System;
@@ -11,6 +11,41 @@ namespace BlogSystem.BLL
     public class UserManager : IUserManager
     {
 
+
+        public async Task RegisterAsync(string email, string password)
+        {
+            using (IDAL.IUserService userSvc = new DAL.UserService())
+            {
+                await userSvc.CreateAsync(new User()
+                {
+                    Email = email,
+                    Password = password,
+                    SiteName = "默认的小站",
+                    ImagePath = "default.png"
+                });
+            }
+        }
+
+        public bool Login(string email, string password, out Guid userid)
+        {
+            using (IDAL.IUserService userSvc = new DAL.UserService())
+            {
+                var user = userSvc.GetAllAsync().FirstOrDefaultAsync(m => m.Email == email && m.Password == password);
+                user.Wait();
+                var data = user.Result;
+                if (data == null)
+                {
+                    userid = new Guid();
+                    return false;
+                }
+                else
+                {
+                    userid = data.Id;
+                    return true;
+                }
+
+            }
+        }
 
         public async Task ChangePassword(string email, string oldPwd, string newPwd)
         {
@@ -44,55 +79,21 @@ namespace BlogSystem.BLL
             {
                 if (await userSvc.GetAllAsync().AnyAsync(m => m.Email == email))
                 {
-                    return await userSvc.GetAllAsync().Where(m => m.Email == email).Select(m => new DTO.UserInformationDto()
-                    {
-                        Id = m.Id,
-                        Email = m.Email,
-                        ImagePath = m.ImagePath,
-                        SiteName = m.SiteName,
-                        FansCount = m.FansCount,
-                        FocusCount = m.FocusCount
-                    }).FirstAsync();
+                    return await userSvc.GetAllAsync().Where(m => m.Email == email).Select(m =>
+                        new Dto.UserInformationDto()
+                        {
+                            Id = m.Id,
+                            Email = m.Email,
+                            FansCount = m.FansCount,
+                            ImagePath = m.ImagePath,
+                            SiteName = m.SiteName,
+                            FocusCount = m.FocusCount
+                        }).FirstAsync();
                 }
                 else
                 {
                     throw new ArgumentException("邮箱地址不存在");
                 }
-            }
-        }
-
-        public bool LoginAsync(string email, string password, out Guid userId)
-        {
-            using (IDAL.IUserService userSvc = new DAL.UserService())
-            {
-                var user = userSvc.GetAllAsync().FirstOrDefaultAsync(m => m.Email == email && m.Password == password);
-                user.Wait();
-                var data = user.Result;
-                if (data == null)
-                {
-                    userId = new Guid();
-                    return false;//不存在当前用户
-                }
-                else
-                {
-                    userId = data.Id;
-                    return true;
-                }
-
-            }
-        }
-
-        public async Task RegisterAsync(string email, string password)
-        {
-            using (IDAL.IUserService userSvc = new DAL.UserService())
-            {
-                await userSvc.CreateAsync(new User()
-                {
-                    Email = email,
-                    Password = password,
-                    SiteName = "默认的网站",
-                    ImagePath = "default.png"
-                });
             }
         }
     }

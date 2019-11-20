@@ -1,28 +1,20 @@
 ﻿using BlogSystem.DAL;
-using BlogSystem.DTO;
+using BlogSystem.Dto;
 using BlogSystem.IBLL;
 using BlogSystem.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlogSystem.BLL
 {
     public class ArticleManager : IArticleManager
     {
-        /// <summary>
-        /// 文章的创建
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="content"></param>
-        /// <param name="categoryIds"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
         public async Task CreateArticle(string title, string content, Guid[] categoryIds, Guid userId)
         {
-            using (var articleSvc=new ArticleService())
+            using (var articleSvc = new ArticleService())
             {
                 var article = new Article()
                 {
@@ -32,34 +24,43 @@ namespace BlogSystem.BLL
                 };
                 await articleSvc.CreateAsync(article);
 
-                Guid atriclId = article.Id;
-                using (var atricleToCategorySvc=new ArticleToCategoryService())
+                Guid articleId = article.Id;
+                using (var articleToCategorySvc = new ArticleToCategoryService())
                 {
                     foreach (var categoryId in categoryIds)
                     {
-                        await atricleToCategorySvc.CreateAsync(new ArticleToCategory() {
-                            ArticleId = atriclId,
-                            BlogCategoryId=categoryId
-                        },saved:false);
+                        await articleToCategorySvc.CreateAsync(new ArticleToCategory()
+                        {
+                            ArticleId = articleId,
+                            BlogCategoryId = categoryId
+                        }, saved: false);
                     }
-                    await atricleToCategorySvc.Save();
+
+                    await articleToCategorySvc.Save();
+
                 }
             }
+
         }
-        /// <summary>
-        /// 文章类别的创建
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+
         public async Task CreateCategory(string name, Guid userId)
         {
-            using (var categorySvc=new BlogCategoryService())
+            //using (var categorySvc = new BlogCategoryService())
+            //{
+            //    await categorySvc.CreateAsync(new BlogCategory()
+            //    {
+            //        CategoryName = name,
+            //        UserId = userId
+            //    });
+            //}
+            using (IDAL.IBlogCategory s = new BlogCategoryService())
             {
-                await categorySvc.CreateAsync(new BlogCategory() {
+                await s.CreateAsync(new BlogCategory()
+                {
                     CategoryName = name,
-                    UserId=userId
-                }); 
+                   
+                    UserId = userId
+                });
             }
         }
         /// <summary>
@@ -116,9 +117,17 @@ namespace BlogSystem.BLL
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task<List<BlogCategoryDto>> GetAllBlogCategories(Guid userId)
+        public async Task<List<BlogCategoryDto>> GetAllCategories(Guid userId)
         {
-            throw new NotImplementedException();
+            using (IDAL.IBlogCategory categoryService = new BlogCategoryService())
+            {
+                return await categoryService.GetAllAsync().Where(m => m.UserId == userId).Select(m => new BlogCategoryDto()
+                {
+                    Id = m.Id,
+                    CategoryName = m.CategoryName
+
+                }).ToListAsync();
+            }
         }
         /// <summary>
         /// 删除文章

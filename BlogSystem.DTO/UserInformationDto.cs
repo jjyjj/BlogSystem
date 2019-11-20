@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlogSystem.DTO
+namespace BlogSystem.Dto
 {
     public class UserInformationDto
     {

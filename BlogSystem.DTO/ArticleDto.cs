@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogSystem.DTO
+namespace BlogSystem.Dto
 {
 public    class ArticleDto
     {
@@ -19,6 +19,6 @@ public    class ArticleDto
         public string ImagePath { get; set; }
 
         public string[] CategoryNames { get; set; }
-        public string[] CategoryIds { get; set; }
+        public Guid[] CategoryIds { get; set; }
     }
 }

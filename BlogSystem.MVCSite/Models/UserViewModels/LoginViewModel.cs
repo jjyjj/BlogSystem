@@ -10,14 +10,14 @@ namespace BlogSystem.MVCSite.Models.UserViewModels
     {
         [Required]
         [EmailAddress]
-        [Display(Name ="电子邮箱")]
-        public string LoginName { get; set; }
+        [Display(Name = "电子邮箱")]
+        public string Email { get; set; }
+        [Display(Name = "密码")]
         [Required]
-        [Display(Name ="密码")]
-        [StringLength (maximumLength:50,MinimumLength =6)]
-        [DataType(dataType:DataType.Password)]
+        [StringLength(50, MinimumLength = 6)]
+        [DataType(dataType: DataType.Password)]
         public string LoginPwd { get; set; }
-       [Display(Name ="记住我")]
+        [Display(Name = "记住我")]
         public bool RememberMe { get; set; }
     }
 }

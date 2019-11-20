@@ -3,13 +3,14 @@ using BlogSystem.MVCSite.Filters;
 using BlogSystem.MVCSite.Models.UserViewModels;
 using System;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace BlogSystem.MVCSite.Controllers
 {
     public class HomeController : Controller
     {
-        IBLL.IUserManager userManager = new UserManager();
+        
         [BlogSystemAuth]
         public ActionResult Index()
         {
@@ -36,12 +37,14 @@ namespace BlogSystem.MVCSite.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(Models.UserViewModels.RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
+            IBLL.IUserManager userManager = new UserManager();
             await userManager.RegisterAsync(model.Email, model.Password);
-            return Content("注册成功    ");
+            return Content("注册成功");
+
         }
 
         [HttpGet]
@@ -54,36 +57,37 @@ namespace BlogSystem.MVCSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                Guid userId;
-                if (userManager.LoginAsync(model.LoginName, model.LoginPwd, out userId))
+                IBLL.IUserManager userManager = new UserManager();
+                Guid userid;
+                if (userManager.Login(model.Email, model.LoginPwd, out userid))
                 {
+                    //跳转
+                    //判断是用session还是用cookie
                     if (model.RememberMe)
                     {
-                        Response.Cookies.Add(new System.Web.HttpCookie(name: "loginName")
+                        Response.Cookies.Add(new HttpCookie("loginName")
                         {
-
-                            Value = model.LoginName,
+                            Value = model.Email,
                             Expires = DateTime.Now.AddDays(7)
                         });
-                        //为了获取到userId，方便传输使用
-                        Response.Cookies.Add(new System.Web.HttpCookie(name: "userId")
+                        Response.Cookies.Add(new HttpCookie("userId")
                         {
-
-                            Value = userId.ToString(),
+                            Value = userid.ToString(),
                             Expires = DateTime.Now.AddDays(7)
                         });
                     }
                     else
                     {
-                        Session["loginName"] = model.LoginName;
-                        Session["userId"] = userId.ToString();
+                        Session["loginName"] = model.Email;
+                        Session["userid"] = userid;
                     }
+
                     return RedirectToAction(nameof(Index));
                 }
-            }
-            else
-            {
-                ModelState.AddModelError("", "您的账号信息有误");
+                else
+                {
+                    ModelState.AddModelError("", "您的账号密码有误");
+                }
             }
             return View(model);
         }

@@ -13,13 +13,13 @@ namespace BlogSystem.IBLL
         //添加文章类别
         Task CreateCategory(string name, Guid userId);
         //查看当前用户的所有类别
-        Task<List<DTO.BlogCategoryDto>> GetAllBlogCategories(Guid userId);
+        Task<List<Dto.BlogCategoryDto>> GetAllCategories(Guid userId);
         //根据用户Id去查找文章
-        Task<List<DTO.ArticleDto>> GetAllArticlesByUserId(Guid userId);
+        Task<List<Dto.ArticleDto>> GetAllArticlesByUserId(Guid userId);
         //根据用户name去查找文章
-        Task<List<DTO.ArticleDto>> GetAllArticlesByEmail(string email);
+        Task<List<Dto.ArticleDto>> GetAllArticlesByEmail(string email);
         //根据类别查找文章
-        Task<List<DTO.ArticleDto>> GetAllArticlesByCategoryId(Guid  categoryId);
+        Task<List<Dto.ArticleDto>> GetAllArticlesByCategoryId(Guid  categoryId);
 
         //删除类别
         Task RemoveCategory(string name);

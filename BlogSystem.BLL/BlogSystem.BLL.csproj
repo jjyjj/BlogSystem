@@ -56,9 +56,9 @@
       <Project>{a02ab370-b354-4ff0-b2c1-77276086c29d}</Project>
       <Name>BlogSystem.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BlogSystem.DTO\BlogSystem.DTO.csproj">
+    <ProjectReference Include="..\BlogSystem.DTO\BlogSystem.Dto.csproj">
       <Project>{ef7d0652-81f3-4755-b659-0d349adbc8e6}</Project>
-      <Name>BlogSystem.DTO</Name>
+      <Name>BlogSystem.Dto</Name>
     </ProjectReference>
     <ProjectReference Include="..\BlogSystem.IBLL\BlogSystem.IBLL.csproj">
       <Project>{7b084fbd-2a17-433e-ba57-1a526bf22d19}</Project>
