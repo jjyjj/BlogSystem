@@ -29,13 +29,12 @@ namespace BlogSystem.BLL
         {
             using (IDAL.IUserService userSvc = new DAL.UserService())
             {
-                if (await userSvc.GetAllAsync().AnyAsync(m => m.Email == email))
-                {
+               
                     var user = await userSvc.GetAllAsync().FirstAsync(m => m.Email == email);
                     user.SiteName = siteName;
                     user.ImagePath = imagePath;
                     await userSvc.EditAsync(user);
-                }
+               
             }
         }
 
