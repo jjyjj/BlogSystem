@@ -43,7 +43,7 @@ namespace BlogSystem.MVCSite.Controllers
             await userManager.RegisterAsync(model.Email, model.Password);
             return Content("注册成功    ");
         }
-       
+
         [HttpGet]
         public ActionResult Login()
         {
@@ -54,7 +54,8 @@ namespace BlogSystem.MVCSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await userManager.LoginAsync(model.LoginName, model.LoginPwd))
+                Guid userId;
+                if (userManager.LoginAsync(model.LoginName, model.LoginPwd, out userId))
                 {
                     if (model.RememberMe)
                     {
@@ -64,10 +65,18 @@ namespace BlogSystem.MVCSite.Controllers
                             Value = model.LoginName,
                             Expires = DateTime.Now.AddDays(7)
                         });
+                        //为了获取到userId，方便传输使用
+                        Response.Cookies.Add(new System.Web.HttpCookie(name: "userId")
+                        {
+
+                            Value = userId.ToString(),
+                            Expires = DateTime.Now.AddDays(7)
+                        });
                     }
                     else
                     {
                         Session["loginName"] = model.LoginName;
+                        Session["userId"] = userId.ToString();
                     }
                     return RedirectToAction(nameof(Index));
                 }

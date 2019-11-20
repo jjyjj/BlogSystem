@@ -12,6 +12,14 @@ namespace BlogSystem.BLL
 {
     public class ArticleManager : IArticleManager
     {
+        /// <summary>
+        /// 文章的创建
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <param name="categoryIds"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task CreateArticle(string title, string content, Guid[] categoryIds, Guid userId)
         {
             using (var articleSvc=new ArticleService())
@@ -38,7 +46,12 @@ namespace BlogSystem.BLL
                 }
             }
         }
-
+        /// <summary>
+        /// 文章类别的创建
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task CreateCategory(string name, Guid userId)
         {
             using (var categorySvc=new BlogCategoryService())
@@ -49,42 +62,78 @@ namespace BlogSystem.BLL
                 }); 
             }
         }
-
+        /// <summary>
+        /// 编辑文章
+        /// </summary>
+        /// <param name="articleId"></param>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <param name="categoryIds"></param>
+        /// <returns></returns>
         public Task EditArticle(Guid articleId, string title, string content, Guid[] categoryIds)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 编辑文章类别
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <param name="newCategoryName"></param>
+        /// <returns></returns>
         public Task EditCategory(Guid categoryId, string newCategoryName)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 根据文章类别查找文章
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
         public Task<List<ArticleDto>> GetAllArticlesByCategoryId(Guid categoryId)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 根据用户Email查找文章
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public Task<List<ArticleDto>> GetAllArticlesByEmail(string email)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 查找当前用户所有文章
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public Task<List<ArticleDto>> GetAllArticlesByUserId(Guid userId)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 查找当前用户所有文章类别
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public Task<List<BlogCategoryDto>> GetAllBlogCategories(Guid userId)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 删除文章
+        /// </summary>
+        /// <param name="articleId"></param>
+        /// <returns></returns>
         public Task RemoveArticle(Guid articleId)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// 删除文章类别
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Task RemoveCategory(string name)
         {
             throw new NotImplementedException();

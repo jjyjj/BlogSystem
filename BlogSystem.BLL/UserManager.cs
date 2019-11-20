@@ -29,12 +29,12 @@ namespace BlogSystem.BLL
         {
             using (IDAL.IUserService userSvc = new DAL.UserService())
             {
-               
-                    var user = await userSvc.GetAllAsync().FirstAsync(m => m.Email == email);
-                    user.SiteName = siteName;
-                    user.ImagePath = imagePath;
-                    await userSvc.EditAsync(user);
-               
+
+                var user = await userSvc.GetAllAsync().FirstAsync(m => m.Email == email);
+                user.SiteName = siteName;
+                user.ImagePath = imagePath;
+                await userSvc.EditAsync(user);
+
             }
         }
 
@@ -44,13 +44,14 @@ namespace BlogSystem.BLL
             {
                 if (await userSvc.GetAllAsync().AnyAsync(m => m.Email == email))
                 {
-                    return await userSvc.GetAllAsync().Where(m => m.Email == email).Select(m => new DTO.UserInformationDto() {
+                    return await userSvc.GetAllAsync().Where(m => m.Email == email).Select(m => new DTO.UserInformationDto()
+                    {
                         Id = m.Id,
                         Email = m.Email,
                         ImagePath = m.ImagePath,
-                        SiteName=m.SiteName,
-                        FansCount=m.FansCount,
-                        FocusCount=m.FocusCount
+                        SiteName = m.SiteName,
+                        FansCount = m.FansCount,
+                        FocusCount = m.FocusCount
                     }).FirstAsync();
                 }
                 else
@@ -60,11 +61,24 @@ namespace BlogSystem.BLL
             }
         }
 
-        public async Task<bool> LoginAsync(string email, string password)
+        public bool LoginAsync(string email, string password, out Guid userId)
         {
             using (IDAL.IUserService userSvc = new DAL.UserService())
             {
-                return await userSvc.GetAllAsync().AnyAsync(m => m.Email == email && m.Password == password);
+                var user = userSvc.GetAllAsync().FirstOrDefaultAsync(m => m.Email == email && m.Password == password);
+                user.Wait();
+                var data = user.Result;
+                if (data == null)
+                {
+                    userId = new Guid();
+                    return false;//不存在当前用户
+                }
+                else
+                {
+                    userId = data.Id;
+                    return true;
+                }
+
             }
         }
 
