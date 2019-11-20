@@ -7,7 +7,7 @@ namespace BlogSystem.Models
         /// <summary>
         /// 博客类别表
         /// </summary>
-        public string Category { get; set; }
+        public string CategoryName { get; set; }
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
 
