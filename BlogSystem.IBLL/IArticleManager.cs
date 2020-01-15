@@ -13,7 +13,7 @@ namespace BlogSystem.IBLL
         //添加文章类别
         Task CreateCategory(string name, Guid userId);
         //查看当前用户的所有类别
-        Task<List<Dto.BlogCategoryDto>> GetAllCategories(Guid userId);
+        Task<List<Dto.BlogCategoryDto>> GetAllCategories(Guid userId,int pageIndex,int pageSize);
         //根据用户Id去查找文章
         Task<List<Dto.ArticleDto>> GetAllArticlesByUserId(Guid userId);
         //根据用户name去查找文章
@@ -32,5 +32,7 @@ namespace BlogSystem.IBLL
         Task<bool> ExistsArticle(Guid articleId);
         //获取文章详情
         Task<Dto.ArticleDto> GetOneArticleById(Guid articleId);
+        //获取总页码
+        Task<int> GetDataCount(Guid UserId);
     }
 }

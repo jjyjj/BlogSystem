@@ -82,7 +82,7 @@ namespace BlogSystem.MVCSite.Controllers
                         Session["userid"] = userid;
                     }
 
-                    return RedirectToAction(nameof(Index));
+                    return  RedirectToAction(nameof(Index));
                 }
                 else
                 {

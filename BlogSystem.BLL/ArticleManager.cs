@@ -119,21 +119,26 @@ namespace BlogSystem.BLL
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<ArticleDto>> GetAllArticlesByUserId(Guid userId)
+        public async Task<List<ArticleDto>> GetAllArticlesByUserId(Guid userId, int pageIndex, int pageSize)
         {
             using (var articleService = new ArticleService())
             {
-                var list = await articleService.GetAllAsync().Include(m => m.User).Where(m => m.UserId == userId).Select(m => new ArticleDto()
-                {
-                    Title = m.Title,
-                    Content = m.Content,
-                    GoodConut = m.GoodConut,
-                    Eamil = m.User.Email,
-                    CreateTime = m.CreateTime,
-                    BadCount = m.BadCount,
-                    Id = m.Id,
-                    ImagePath = m.User.ImagePath
-                }).ToListAsync();
+                var list = await articleService
+                    .GetAllByPageOrderAsync(pageSize, pageIndex, false)
+
+                    .Include(m => m.User)
+                    .Where(m => m.UserId == userId)
+                    .Select(m => new ArticleDto()
+                    {
+                        Title = m.Title,
+                        Content = m.Content,
+                        GoodConut = m.GoodConut,
+                        Eamil = m.User.Email,
+                        CreateTime = m.CreateTime,
+                        BadCount = m.BadCount,
+                        Id = m.Id,
+                        ImagePath = m.User.ImagePath
+                    }).ToListAsync();
                 using (IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService())
                 {
                     foreach (var articleDto in list)
@@ -147,6 +152,12 @@ namespace BlogSystem.BLL
 
             }
         }
+
+        public Task<List<ArticleDto>> GetAllArticlesByUserId(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 查找当前用户所有文章类别
         /// </summary>
@@ -165,6 +176,33 @@ namespace BlogSystem.BLL
             }
         }
 
+        public Task<List<BlogCategoryDto>> GetAllCategories(Guid userId, int pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+     
+
+
+        /// <summary>
+        /// 删除文章
+        /// </summary>
+        /// <param name="articleId"></param>
+        /// <returns></returns>
+        public Task RemoveArticle(Guid articleId)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// 删除文章类别
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Task RemoveCategory(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        //获取一篇文章详情
         public async Task<ArticleDto> GetOneArticleById(Guid articleId)
         {
             using (IDAL.IArticleService articleService = new ArticleService())
@@ -197,24 +235,13 @@ namespace BlogSystem.BLL
 
             }
         }
-
-        /// <summary>
-        /// 删除文章
-        /// </summary>
-        /// <param name="articleId"></param>
-        /// <returns></returns>
-        public Task RemoveArticle(Guid articleId)
+        //获取总页码
+        public async Task<int> GetDataCount(Guid UserId)
         {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// 删除文章类别
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public Task RemoveCategory(string name)
-        {
-            throw new NotImplementedException();
+            using (IDAL.IArticleService articleService = new ArticleService())
+            {
+                return await articleService.GetAllAsync().CountAsync(m => m.UserId == UserId);
+            }
         }
     }
 }

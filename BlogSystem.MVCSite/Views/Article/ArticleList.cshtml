@@ -9,61 +9,159 @@
 <p>
     @Html.ActionLink("Create New", "CreateArticle")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Eamil)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GoodConut)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BadCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </th>
-        <th></th>
-    </tr>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eamil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GoodConut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BadCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Eamil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GoodConut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BadCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImagePath)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "ArticleDetails", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="8">
+                <ul class="pagerList nav nav-justified">
+                    @if (ViewBag.PageCount <= 7)
+                    {
+                        for (int i = 1; i <= ViewBag.PageCount; i++)
+                        {
+                            if (i == ViewBag.PageIndex + 1)
+                            {
+                                <li>
+                                    <a style="color:red" href="#">@i</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="/Article/ArticleList?pageIndex=@(i-1)&pageSize=3">@i</a>
+                                </li>
+                            }
+                        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Eamil)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GoodConut)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BadCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImagePath)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "ArticleDetails", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+                    }
+                    else
+                    {
+                        //可容纳页码小于实际页码
+                        if (ViewBag.PageIndex <= 7 / 2 )
+                        {
+                            for (int i = 1; i <= 7; i++)
+                            {
+                                if (i == ViewBag.PageIndex + 1)
+                                {
+                                    <li>
+                                        <a style="color:red" href="#">@i</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a href="/Article/ArticleList?pageIndex=@(i-1)&pageSize=3">@i</a>
+                                    </li>
+                                }
+                            }
+                        }
+                        else if ((ViewBag.PageCount - ViewBag.PageIndex - 1) <= 7 / 2)
+                        {
+                            for (int i = ViewBag.PageCount - (7 - 1); i <= ViewBag.PageCount; i++)
+                            {
+
+                                if (i == ViewBag.PageIndex + 1)
+                                {
+                                    <li>
+                                        <a style="color:red" href="#">@i</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a href="/Article/ArticleList?pageIndex=@(i-1)&pageSize=3">@i</a>
+                                    </li>
+                                }
+
+                            }
+
+                        }
+                        else
+                        {
+                            for (int i = ViewBag.PageIndex - 7 / 2 + 1; i <= ViewBag.PageIndex + 7 / 2 + 1; i++)
+                            {
+                                if (i == ViewBag.PageIndex + 1)
+                                {
+                                    <li>
+                                        <a style="color:red" href="#">@i</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a href="/Article/ArticleList?pageIndex=@(i-1)&pageSize=3">@i</a>
+                                    </li>
+                                }
+
+
+
+                            }
+                        }
+
+
+                    }
+
+                </ul>
+            </td>
+        </tr>
+    </tfoot>
 
 </table>
