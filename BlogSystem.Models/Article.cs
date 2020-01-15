@@ -17,7 +17,7 @@ namespace BlogSystem.Models
         /// <summary>
         /// 点赞数
         /// </summary>
-        public int GoodCount { get; set; }
+        public int GoodConut { get; set; }
 
         /// <summary>
         /// 反对数

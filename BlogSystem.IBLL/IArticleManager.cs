@@ -28,5 +28,9 @@ namespace BlogSystem.IBLL
         //删除文章
         Task RemoveArticle(Guid articleId);
         Task EditArticle(Guid articleId,string title,string content,Guid[] categoryIds);
+        //判断文章是否存在
+        Task<bool> ExistsArticle(Guid articleId);
+        //获取文章详情
+        Task<Dto.ArticleDto> GetOneArticleById(Guid articleId);
     }
 }

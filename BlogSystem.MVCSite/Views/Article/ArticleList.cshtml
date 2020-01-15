@@ -1,0 +1,69 @@
+﻿@model IEnumerable<BlogSystem.Dto.ArticleDto>
+
+@{
+    ViewBag.Title = "ArticleList";
+}
+
+<h2>ArticleList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateArticle")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Eamil)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GoodConut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BadCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Eamil)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GoodConut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BadCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImagePath)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "ArticleDetails", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

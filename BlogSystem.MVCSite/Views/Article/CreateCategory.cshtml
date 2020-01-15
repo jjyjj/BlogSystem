@@ -7,10 +7,10 @@
 <h2>CreateCategory</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>CreateCategoryViewModel</h4>
         <hr />
@@ -31,9 +31,9 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        @Html.ActionLink("Back to List", "CategoryList")
+    </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

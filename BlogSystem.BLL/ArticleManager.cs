@@ -1,6 +1,7 @@
 ﻿using BlogSystem.DAL;
 using BlogSystem.Dto;
 using BlogSystem.IBLL;
+using BlogSystem.IDAL;
 using BlogSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace BlogSystem.BLL
                 await s.CreateAsync(new BlogCategory()
                 {
                     CategoryName = name,
-                   
+
                     UserId = userId
                 });
             }
@@ -85,6 +86,16 @@ namespace BlogSystem.BLL
         {
             throw new NotImplementedException();
         }
+
+        public async Task<bool> ExistsArticle(Guid articleId)
+        {
+            using (IDAL.IArticleService articleService = new ArticleService())
+            {
+                return await articleService.GetAllAsync().AnyAsync(m => m.Id == articleId);
+            }
+
+        }
+
         /// <summary>
         /// 根据文章类别查找文章
         /// </summary>
@@ -108,9 +119,33 @@ namespace BlogSystem.BLL
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task<List<ArticleDto>> GetAllArticlesByUserId(Guid userId)
+        public async Task<List<ArticleDto>> GetAllArticlesByUserId(Guid userId)
         {
-            throw new NotImplementedException();
+            using (var articleService = new ArticleService())
+            {
+                var list = await articleService.GetAllAsync().Include(m => m.User).Where(m => m.UserId == userId).Select(m => new ArticleDto()
+                {
+                    Title = m.Title,
+                    Content = m.Content,
+                    GoodConut = m.GoodConut,
+                    Eamil = m.User.Email,
+                    CreateTime = m.CreateTime,
+                    BadCount = m.BadCount,
+                    Id = m.Id,
+                    ImagePath = m.User.ImagePath
+                }).ToListAsync();
+                using (IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService())
+                {
+                    foreach (var articleDto in list)
+                    {
+                        var cates = await articleToCategoryService.GetAllAsync().Include(m => m.BlogCategory).Where(m => m.ArticleId == articleDto.Id).ToListAsync();
+                        articleDto.CategoryIds = cates.Select(m => m.BlogCategoryId).ToArray();
+                        articleDto.CategoryNames = cates.Select(m => m.BlogCategory.CategoryName).ToArray();
+                    }
+                    return list;
+                }
+
+            }
         }
         /// <summary>
         /// 查找当前用户所有文章类别
@@ -129,6 +164,40 @@ namespace BlogSystem.BLL
                 }).ToListAsync();
             }
         }
+
+        public async Task<ArticleDto> GetOneArticleById(Guid articleId)
+        {
+            using (IDAL.IArticleService articleService = new ArticleService())
+            {
+                var data = await articleService.GetAllAsync()
+                    .Include(m => m.User)//联表查询
+                    .Where(m => m.Id == articleId)//查询条件
+                    .Select(m => new Dto.ArticleDto()
+                    {
+                        Id = m.Id,
+                        BadCount = m.BadCount,
+                        Title = m.Title,
+                        Content = m.Content,
+                        CreateTime = m.CreateTime,
+                        Eamil = m.User.Email,
+                        GoodConut = m.GoodConut,
+                        ImagePath = m.User.ImagePath
+                    }).FirstAsync();//取出该条数据
+                using (IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService())
+                {
+                    var cates = await articleToCategoryService
+                        .GetAllAsync()
+                        .Include(m => m.BlogCategory)
+                        .Where(m => m.ArticleId == data.Id)
+                        .ToListAsync();
+                    data.CategoryIds = cates.Select(m => m.BlogCategoryId).ToArray();
+                    data.CategoryNames = cates.Select(m => m.BlogCategory.CategoryName).ToArray();
+                    return data;
+                }
+
+            }
+        }
+
         /// <summary>
         /// 删除文章
         /// </summary>

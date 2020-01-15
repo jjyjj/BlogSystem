@@ -132,6 +132,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ArticleViewModels\ArticleDetailsViewModel.cs" />
+    <Compile Include="Models\ArticleViewModels\CreateArticleViewModel.cs" />
     <Compile Include="Models\ArticleViewModels\CreateCategoryViewModel.cs" />
     <Compile Include="Models\UserViewModels\LoginViewModel.cs" />
     <Compile Include="Models\UserViewModels\RegisterViewModel.cs" />
@@ -177,6 +179,9 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Article\CreateCategory.cshtml" />
     <Content Include="Views\Article\CategoryList.cshtml" />
+    <Content Include="Views\Article\ArticleList.cshtml" />
+    <Content Include="Views\Article\CreateArticle.cshtml" />
+    <Content Include="Views\Article\ArticleDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

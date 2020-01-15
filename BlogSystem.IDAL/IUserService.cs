@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-
-namespace BlogSystem.IDAL
+﻿namespace BlogSystem.IDAL
 {
     public interface IUserService : IBaseService<Models.User>
     {
-       
+
 
 
     }
