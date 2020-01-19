@@ -79,11 +79,66 @@
     </dl>
 </div>
 <p>
+
     @Html.ActionLink("Edit", "EditArticle", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "ArticleList2")
+    <hr />
+    <br />
+    <button class="btn btn-default" onclick="btnGoodHandler(this)">点赞</button>
+    <button class="btn btn-default" onclick="btnBadHandler(this)">反对</button>
+    <hr />
+    <br />
+    <input type="text" name="txtComment" id="txtComment" value="" placeholder="请输入您的评论" />
+    <button class="btn btn-default" onclick="addComment()"> 发表评论</button>
 </p>
+<ul>
+    @foreach (var commnet in ViewBag.Comments)
+    {
+        <li>
+            <span>@commnet.Content</span>
+            <br />
+            <span>@commnet.Email 发表于 @commnet.CreateTime</span>
+        </li>
+    }
 
+</ul>
 <h3>
     @Url.Action("Login", "Home")
     @Url.Action("CreateArticle", "Article")
 </h3>
+<script>
+    var articleId='@Model.Id';
+    function btnGoodHandler(btn) {
+        $.ajax({
+            url: "/Article/GoodCount/"+articleId,
+            type: "post",
+        }).done(() => {
+            alert("点赞成功");
+            btn.disabled = true;
+        });
+
+    }
+    function btnBadHandler(btn) {
+        $.ajax({
+            url: "/Article/BadCount/" + articleId,
+            type: "post",
+        }).done(() => {
+            alert("反对   成功");
+            btn.disabled = true;
+        });
+
+    } 
+    function addComment() {
+        $.ajax({
+            url: "/Article/AddComment",
+            type: "post",
+            data: {
+                Id: '@Model.Id',
+                Content: $('#txtComment').val()
+            }
+        }).done(() => {
+            alert("添加评论成功");
+            location.reload();
+        });
+    }
+</script>

@@ -36,24 +36,21 @@ namespace BlogSystem.MVCSite.Controllers
             return View(model);
         }
         [HttpGet]
-
         public async Task<ActionResult> CategoryList()
         {
             var userid = Guid.Parse(Session["userid"].ToString());
             return View(await new ArticleManager().GetAllCategories(userid));
         }
         [HttpGet]
-
         public async Task<ActionResult> CreateArticle()
         {
             var userid = Guid.Parse(Session["userid"].ToString());
             ViewBag.CategoryIds = await new ArticleManager().GetAllCategories(userid);
             return View();
         }
-
         [HttpPost]
         [ValidateInput(false)]
-        public async Task<ActionResult> CreateArticle(Models.ArticleViewModels.CreateArticleViewModel model)
+        public async Task<ActionResult> CreateArticle(CreateArticleViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -103,10 +100,11 @@ namespace BlogSystem.MVCSite.Controllers
             if (!await new ArticleManager().ExistsArticle(id.Value) || id == null)
 
                 return RedirectToAction(nameof(ArticleList));
-            else
-            {
-                return View(await articleMgr.GetOneArticleById(id.Value));
-            }
+
+            ViewBag.Comments = await articleMgr.GetCommentsByArticleId(id.Value);
+
+            return View(await articleMgr.GetOneArticleById(id.Value));
+
         }
         //编辑
         [HttpGet]
@@ -125,6 +123,7 @@ namespace BlogSystem.MVCSite.Controllers
                 Id = data.Id
             });
         }
+        //编辑文章
         [HttpPost]
         public async Task<ActionResult> EditArticle(EditArtcileViewModel model)
         {
@@ -141,6 +140,46 @@ namespace BlogSystem.MVCSite.Controllers
                 return View(model);
             }
 
+        }
+        //点赞
+        [HttpPost]
+        public async Task<ActionResult> GoodCount(Guid id)
+        {
+            IBLL.IArticleManager articleManager = new ArticleManager();
+            await articleManager.GoodCountAdd(id);
+            return Json(new { result = "ok" });
+        }
+        //反对
+        [HttpPost]
+        public async Task<ActionResult> BadCount(Guid id)
+        {
+            IBLL.IArticleManager articleManager = new ArticleManager();
+            await articleManager.BadCountAdd(id);
+            return Json(new { result = "ok" });
+        }
+        //添加评论
+        [HttpPost]
+        public async Task<ActionResult> AddComment(CreateCommentViewModel model)
+        {
+            var userid = Guid.Parse(Session["userid"].ToString());
+            IBLL.IArticleManager articleManager = new ArticleManager();
+            await articleManager.CreateComment(userid, model.Id, model.Content);
+            return Json(new { reslut = "ok" });
+        }
+        //删除文章
+        [HttpPost]
+        public async Task<ActionResult> Delete(Guid? id)
+        {
+            var articleMgr = new ArticleManager();
+
+            if (!await new ArticleManager().ExistsArticle(id.Value) || id == null)
+
+                return Json(new { result = "error" });
+            else
+            {
+                await articleMgr.RemoveArticle(id.Value);
+                return Json(new { result = "ok" });
+            }
         }
     }
 }

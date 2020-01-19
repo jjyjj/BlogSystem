@@ -138,6 +138,7 @@
     <Compile Include="Models\ArticleViewModels\ArticleDetailsViewModel.cs" />
     <Compile Include="Models\ArticleViewModels\CreateArticleViewModel.cs" />
     <Compile Include="Models\ArticleViewModels\CreateCategoryViewModel.cs" />
+    <Compile Include="Models\ArticleViewModels\CreateCommentViewModel.cs" />
     <Compile Include="Models\ArticleViewModels\EditArtcileViewModel.cs" />
     <Compile Include="Models\UserViewModels\LoginViewModel.cs" />
     <Compile Include="Models\UserViewModels\RegisterViewModel.cs" />

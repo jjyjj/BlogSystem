@@ -66,6 +66,7 @@
                     @Html.ActionLink("Edit", "EditArticle", new { id = item.Id }) |
                     @Html.ActionLink("Details", "ArticleDetails", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                   
                 </td>
             </tr>
         }
@@ -81,12 +82,16 @@
     </tfoot>
 
 </table>
+
+<script>
+  
+</script>
 <style>
     .pagination {
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-    margin:0;
-    padding:3px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin: 0;
+        padding: 3px;
     }
 </style>
