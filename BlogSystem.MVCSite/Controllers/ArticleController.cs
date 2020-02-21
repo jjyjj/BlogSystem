@@ -168,18 +168,19 @@ namespace BlogSystem.MVCSite.Controllers
         }
         //删除文章
         [HttpPost]
-        public async Task<ActionResult> Delete(Guid? id)
+        public async Task<ActionResult> DeleteOneArtcileById(Guid id)
         {
-            var articleMgr = new ArticleManager();
-
-            if (!await new ArticleManager().ExistsArticle(id.Value) || id == null)
-
-                return Json(new { result = "error" });
-            else
-            {
-                await articleMgr.RemoveArticle(id.Value);
-                return Json(new { result = "ok" });
-            }
+            IBLL.IArticleManager articleManager = new ArticleManager();
+         
+                await articleManager.RemoveArticle(id);
+       
+          
+                
+         
+           
+            return Json(new { result = "ok" });
         }
+
+
     }
 }

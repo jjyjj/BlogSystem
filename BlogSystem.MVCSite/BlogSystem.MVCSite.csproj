@@ -154,6 +154,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Image\defult.png" />
     <Content Include="Scripts\bootstrap-wysiwyg.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -200,6 +201,26 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="static\css\bootstrap.no-icons.min.css" />
+    <Content Include="static\css\font-awesome.css" />
+    <Content Include="static\css\font_family.css" />
+    <Content Include="static\css\styles.css" />
+    <Content Include="static\css\timeline.css" />
+    <Content Include="static\fonts\fontawesome-webfont.svg" />
+    <Content Include="static\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="static\images\avatar_man.png" />
+    <Content Include="static\images\avatar_woman.png" />
+    <Content Include="static\images\bg_head.jpg" />
+    <Content Include="static\images\gt_favicon.png" />
+    <Content Include="static\images\guy.jpg" />
+    <Content Include="static\images\mac.jpg" />
+    <Content Include="static\images\s1.jpg" />
+    <Content Include="static\images\s2.jpg" />
+    <Content Include="static\images\sample_clients.png" />
+    <Content Include="static\js\bootstrap.min.js" />
+    <Content Include="static\js\html5shiv.js" />
+    <Content Include="static\js\jquery.min.js" />
+    <Content Include="static\js\template.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -223,6 +244,20 @@
     <Content Include="Views\Article\ArticleDetails.cshtml" />
     <Content Include="Views\Article\ArticleList2.cshtml" />
     <Content Include="Views\Article\EditArticle.cshtml" />
+    <Content Include="static\fonts\fontawesome-webfont.eot" />
+    <Content Include="static\fonts\fontawesome-webfont.ttf" />
+    <Content Include="static\fonts\fontawesome-webfont.woff" />
+    <Content Include="static\fonts\fontawesome-webfont.woff2" />
+    <Content Include="static\fonts\FontAwesome.otf" />
+    <Content Include="static\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="static\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="static\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="static\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="static\less\3rd-party\bootstrap\mixins.less" />
+    <Content Include="static\less\3rd-party\lesshat.less" />
+    <Content Include="static\less\mixins.less" />
+    <Content Include="static\less\navbar.less" />
+    <Content Include="static\less\styles.less" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

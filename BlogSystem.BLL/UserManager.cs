@@ -21,7 +21,7 @@ namespace BlogSystem.BLL
                     Email = email,
                     Password = password,
                     SiteName = "默认的小站",
-                    ImagePath = "default.png"
+                    ImagePath = "~/Image/defult.png"
                 });
             }
         }

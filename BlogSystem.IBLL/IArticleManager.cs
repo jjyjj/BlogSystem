@@ -20,7 +20,7 @@ namespace BlogSystem.IBLL
         Task<List<Dto.ArticleDto>> GetAllArticlesByCategoryId(Guid categoryId);
 
         //删除类别
-        Task RemoveCategory(string name);
+        Task RemoveCategory(Guid categoryId);
         //编辑类别
         Task EditCategory(Guid categoryId, string newCategoryName);
         //删除文章

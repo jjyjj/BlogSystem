@@ -4,109 +4,209 @@
     ViewBag.Title = "ArticleDetails";
 }
 
-<h2>ArticleDetails</h2>
 
-<div>
-    <h4>ArticleDto</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+<!DOCTYPE html>
+<html lang="en">
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+<head>
+    <meta charset="utf-8">
+  
+    <link rel="shortcut icon" href="~/static/images/gt_favicon.png">
+    <link rel="stylesheet" href="~/static/css/bootstrap.no-icons.min.css" />
+    <link rel="stylesheet" href="~/static/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/static/css/font_family.css" />
+    <link rel="stylesheet" href="~/static/css/styles.css">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
+    <!--[if lt IE 9]> <script src="~/static/js/html5shiv.js"></script> <![endif]-->
+</head>
 
-        <dd>
-            @Html.Raw(Model.Content)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreateTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Eamil)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Eamil)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.GoodConut)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GoodConut)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BadCount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BadCount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-        <dt>
-            类别
-        </dt>
-        @foreach (var item in Model.CategoryNames)
-        {
+<body>
+    <header id="header">
 
 
-            <dd>
-                @item
-            </dd>
-        }
-    </dl>
-</div>
-<p>
+        <nav class="navbar navbar-default navbar-sticky">
+            <div class="container-fluid">
 
-    @Html.ActionLink("Edit", "EditArticle", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "ArticleList2")
-    <hr />
-    <br />
-    <button class="btn btn-default" onclick="btnGoodHandler(this)">点赞</button>
-    <button class="btn btn-default" onclick="btnBadHandler(this)">反对</button>
-    <hr />
-    <br />
-    <input type="text" name="txtComment" id="txtComment" value="" placeholder="请输入您的评论" />
-    <button class="btn btn-default" onclick="addComment()"> 发表评论</button>
-</p>
-<ul>
-    @foreach (var commnet in ViewBag.Comments)
-    {
-        <li>
-            <span>@commnet.Content</span>
-            <br />
-            <span>@commnet.Email 发表于 @commnet.CreateTime</span>
-        </li>
-    }
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                </div>
 
-</ul>
-<h3>
-    @Url.Action("Login", "Home")
-    @Url.Action("CreateArticle", "Article")
-</h3>
-<script>
+                <div class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">主页</a>
+                        </li>
+                        <li>
+                            <a href="#">我的</a>
+                        </li>
+                        <li>
+                            <a href="#">博客墙</a>
+                        </li>
+                        <li>
+                            <a href="#">吐槽</a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    <main id="main">
+
+        <div class="container">
+
+            <div class="row topspace">
+
+                <!-- Article main content -->
+                <article class="col-sm-11 maincontent">
+                    <header class="entry-header">
+                        <h1 class="entry-title"><a href="#" rel="bookmark"> @Html.DisplayFor(model => model.Title)</a></h1>
+                        <div style="width:60%;margin: 20px auto ">
+                            <ul class="nav-justified nav">
+                                <li>  <span class="author"><span class="glyphicon glyphicon-user">：</span><span class="posted-on">蒋金园</span></span></li>
+                                <li> <span class="posted-on"><time class="entry-date published" date="2013-06-17"><span class="glyphicon glyphicon-time">：</span>@Html.DisplayFor(model => model.CreateTime)</time></span></li>
+                                <li> <span class="	glyphicon glyphicon-eye-open">：</span><span class="posted-on">20</span></li>
+                            </ul>
+
+
+
+
+                        </div>
+
+                    </header>
+                    <div class="entry-content">
+                        <p>@Html.Raw(Model.Content)</p>
+                    </div>
+
+                    <footer>
+                        <div class="row">
+                            <div class="col-md-4 text-left">
+                                <p>
+                                    本文作者为蒋金园，如需转载，请说明;
+                                    <br />如需商用请联系 @Html.DisplayFor(model => model.Eamil)
+                                </p>
+
+                            </div>
+
+                            <div class="col-md-8 text-right">
+                                <span class="author"><span class="glyphicon glyphicon-pushpin">类别 ：</span></span>
+
+                                @foreach (var item in Model.CategoryNames)
+                                {
+                                    <span class="label label-primary">@item</span>
+
+
+                                }
+
+                            </div>
+                        </div>
+
+
+                        <div style="margin:15px">
+                            <div class="navbar-collapse collapse">
+
+                                <ul class="nav navbar-nav">
+                                    <li>
+
+                                        <button class="btn btn-action" onclick="btnGoodHandler(this)"> <span class="glyphicon glyphicon-thumbs-up"> </span>&nbsp;&nbsp;赞他</button>
+
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-action" onclick="btnBadHandler(this)"> <span class="glyphicon glyphicon-thumbs-down"> </span>&nbsp;&nbsp;踩他</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-action"> <span class="	glyphicon glyphicon-briefcase"> </span>&nbsp;&nbsp;打赏</button>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </footer>
+                </article>
+
+                <div class="col-sm-11 maincontent">
+
+                    <div id="comments">
+
+                        <div class="clearfix"></div>
+
+                        <nav id="comment-nav-below" class="comment-navigation clearfix" role="navigation">
+                            <div class="nav-content">
+                                <div class="nav-previous"><a href="#">&larr; 上一篇</a></div>
+                                <div class="nav-next"><a href="#">&rarr; 下一篇</a></div>
+                                <div class="nav-next"> @Html.ActionLink("返回列表页", "ArticleList2")</div>
+                            </div>
+                        </nav>
+                        <!-- #comment-nav-below -->
+                        <br />
+
+                        <br />
+                        <h4 class="comments-title"> <span class="glyphicon glyphicon-comment"></span> 留下你的评论</h4>
+                        <a href="#comment-form" class="leave-comment"></a>
+                        <input type="text" name="txtComment" id="txtComment" value="" placeholder="请输入您的评论" />
+                        <button class="btn btn-action" onclick="addComment()"> 发表评论</button>
+
+                        <ol class="comments-list">
+                            @foreach (var commnet in ViewBag.Comments)
+                            {
+                                <li class="comment">
+                                    <div>
+                                        @using System.Text;
+                                        @{
+                                            string src = Model.ImagePath;
+                                            string[] srcArry = src.Split('~');
+                                        }
+
+                                        <img src="   @Html.Raw(srcArry[1].ToString())" alt="Avatar" class="avatar">
+
+                                        <div class="comment-meta">
+                                            <span class="author"><a href="#"> @commnet.Email</a></span>
+                                            <span class="date"><a href="#">@commnet.CreateTime</a></span>
+                                            <span class="reply"><a href="#">回复</a></span>
+                                        </div>
+                                        <div class="comment-body">
+                                            @commnet.Content
+                                        </div>
+                                    </div>
+
+                                    @*<ul class="children">
+                                            <li class="comment">
+                                                <div>
+                                                    <img src="~/~/static/images/avatar_man.png" alt="Avatar" class="avatar">
+
+                                                    <div class="comment-meta">
+                                                        <span class="author"><a href="#">John Doe</a></span>
+                                                        <span class="date"><a href="#">January 22, 2011 at 4:55 pm</a></span>
+                                                        <span class="reply"><a href="#">回复</a></span>
+                                                    </div>
+                                                    <!-- .comment-meta -->
+
+                                                    <div class="comment-body">
+                                                        Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus.
+                                                    </div>
+
+                                                    <!-- .comment-body -->
+                                                </div>
+                                            </li>
+                                        </ul>*@
+
+                                </li>
+                            }
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script type="text/javascript" src="~/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/static/js/bootstrap.min.js"></script>
+    <script src="~/static/js/template.js"></script>
+    <script>
     var articleId='@Model.Id';
     function btnGoodHandler(btn) {
         $.ajax({
@@ -127,7 +227,7 @@
             btn.disabled = true;
         });
 
-    } 
+    }
     function addComment() {
         $.ajax({
             url: "/Article/AddComment",
@@ -141,4 +241,13 @@
             location.reload();
         });
     }
-</script>
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+

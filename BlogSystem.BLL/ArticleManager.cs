@@ -215,21 +215,36 @@ namespace BlogSystem.BLL
         public async Task RemoveArticle(Guid articleId)
         {
 
-            using (IDAL.IArticleService articleService = new ArticleService())
+            using (IDAL.IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService())
             {
-               
-                await articleService.RemoveAsync(articleId);
+                foreach (var categoryId in articleToCategoryService.GetAllAsync().Where(m => m.ArticleId == articleId))
+                {
+                    await articleToCategoryService.RemoveAsync(categoryId);
+                }
+              
+                using (IDAL.IArticleService articleService = new ArticleService())
+                {
+                    await articleService.RemoveAsync(articleId);
+                    await articleToCategoryService.Save();
+                    await articleService.Save();
+                }
 
             }
+          
+
         }
         /// <summary>
         /// 删除文章类别
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Task RemoveCategory(string name)
+        public async Task RemoveCategory(Guid categoryId)
         {
-            throw new NotImplementedException();
+
+            IDAL.IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService();
+            await articleToCategoryService.RemoveAsync(categoryId, false);
+            await articleToCategoryService.Save();
+
         }
 
         //获取一篇文章详情
@@ -314,7 +329,7 @@ namespace BlogSystem.BLL
         {
             using (IDAL.ICommentService commentService = new CommentService())
             {
-                return await commentService.GetAllOrderAsync(asc:false)
+                return await commentService.GetAllOrderAsync(asc: false)
                      .Where(m => m.ArticleId == articleId)
                      .Include(m => m.User)
                      .Select(m => new Dto.CommentDto()

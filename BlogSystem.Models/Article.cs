@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
 namespace BlogSystem.Models
 {
     public class Article : BaseEntity
@@ -9,6 +10,7 @@ namespace BlogSystem.Models
         public string Title { get; set; }
 
         [Column(TypeName = "ntext"), Required]
+       
         public string Content { get; set; }
 
         [ForeignKey(nameof(User))]
