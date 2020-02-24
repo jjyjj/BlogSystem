@@ -1,0 +1,155 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model  Webdiyer.WebControls.Mvc.PagedList<BlogSystem.Dto.ArticleDto>
+
+
+@{
+    ViewBag.Title = "AllArticleList";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    @*导航栏*@
+    <link rel="stylesheet" href="~/static/css/styles.css">
+    <link rel="stylesheet" href="~/static/css/bootstrap.no-icons.min.css" />
+    <link rel="stylesheet" href="~/static/css/style.css">
+
+
+
+
+</head>
+
+<body>
+
+    <header id="header">
+
+
+        <nav class="navbar navbar-default navbar-sticky">
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                </div>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">主页</a>
+                        </li>
+                        <li>
+                            <a href="#">我的</a>
+                        </li>
+                        <li>
+                            <a href="#">博客墙</a>
+                        </li>
+                        <li>
+                            <a href="#">吐槽</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </nav>
+    </header>
+
+    <main id="main">
+        <div class="container">
+            <div id="colorlib-container">
+                <div class="container">
+                    <div class="row row-pb-md">
+
+
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-4">
+
+
+                                <div class="blog-entry">
+                                    <div class="blog-img">
+                                        <a href="/Article/ArticleDetails/@item.Id"> <img onerror="this.src='../images/sys/error-img.png'" src="~/static/images/avatar_woman.png" class="img-responsive" alt="html5 bootstrap template"></a>
+                                    </div>
+                                    <div class="desc" style="height:200px">
+
+                                        <div class="meta">
+                                            <span class="cat"><i class="glyphicon glyphicon-eye-open"></i>:&nbsp;</span>
+                                            <span class="date"> <i class="glyphicon glyphicon-time"></i>:&nbsp;@item.TimeInterval</span>
+                                            <span class="pos"><i class="glyphicon glyphicon-comment"></i>&nbsp;&nbsp;@item.TotalComments</span>
+                                        </div>
+                                        <div class="meta">
+                                            <span class="cat"><i class=""></i>&nbsp;&nbsp;<a href="#">@Html.ActionLink("" + @Html.DisplayFor(modelItem => item.Title) + "", "ArticleDetails", new { id = item.Id })</a></span>
+
+
+
+                                        </div>
+                                        <div class="fontPage-size">@item.Content</div>
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+
+                    </div>
+
+
+
+                    <!-- 页码栏   start -->
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+
+                            <center class="">
+
+                                <nav>
+                                    @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "pageIndex", ContainerTagName = "ul", CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"> <a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"> <a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>", Id = "bootstrappager" })
+                                </nav>
+                            </center>
+                        </div>
+                    </div>
+                    <!-- 页码栏   end -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script type="text/javascript" src="~/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/static/js/bootstrap.min.js"></script>
+    <script src="~/static/js/template.js"></script>
+ 
+    <style>
+        .pagination {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin: 0;
+            padding: 3px;
+        }
+    </style>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -61,7 +61,12 @@ namespace BlogSystem.MVCSite.Controllers
             ModelState.AddModelError("", "添加失败");
             return View();
         }
-        //文章列表
+        /// <summary>
+        /// 个人文章列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> ArticleList(int pageIndex = 0, int pageSize = 3)
         {
@@ -76,6 +81,12 @@ namespace BlogSystem.MVCSite.Controllers
             ViewBag.PageIndex = pageIndex;
             return View(artciles);
         }
+        /// <summary>
+        ///获取当前用户的所有文章
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> ArticleList2(int pageIndex = 1, int pageSize = 5)
         {
@@ -91,6 +102,29 @@ namespace BlogSystem.MVCSite.Controllers
 
             return View(new PagedList<Dto.ArticleDto>(artciles, pageIndex, pageSize, dataCount));
         }
+
+        /// <summary>
+        /// 获取所有文章
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> AllArticleList(int pageIndex = 1, int pageSize = 6)
+        {
+            
+              var articleMgr = new ArticleManager();
+            var articles = await articleMgr.GetAllArticles(pageIndex - 1, pageSize);
+            var dataCount = await articleMgr.GetDataCount();
+            foreach (var item in articles)
+            {
+                item.TotalComments = await articleMgr.GetCommentsForArticleCountByArticleId(item.Id);
+            }
+        
+            return View(new PagedList<Dto.ArticleDto>(articles, pageIndex, pageSize, dataCount));
+
+        }
+
         //查看文章详情
         public async Task<ActionResult> ArticleDetails(Guid? id)
         {
@@ -180,7 +214,6 @@ namespace BlogSystem.MVCSite.Controllers
            
             return Json(new { result = "ok" });
         }
-
 
     }
 }

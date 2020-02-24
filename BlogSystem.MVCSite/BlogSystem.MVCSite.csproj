@@ -204,6 +204,10 @@
     <Content Include="static\css\bootstrap.no-icons.min.css" />
     <Content Include="static\css\font-awesome.css" />
     <Content Include="static\css\font_family.css" />
+    <Content Include="static\css\icomoon.css" />
+    <Content Include="static\css\owl.carousel.min.css" />
+    <Content Include="static\css\owl.theme.default.min.css" />
+    <Content Include="static\css\style.css" />
     <Content Include="static\css\styles.css" />
     <Content Include="static\css\timeline.css" />
     <Content Include="static\fonts\fontawesome-webfont.svg" />
@@ -219,7 +223,15 @@
     <Content Include="static\images\sample_clients.png" />
     <Content Include="static\js\bootstrap.min.js" />
     <Content Include="static\js\html5shiv.js" />
+    <Content Include="static\js\jquery.easing.1.3.js" />
+    <Content Include="static\js\jquery.flexslider-min.js" />
+    <Content Include="static\js\jquery.magnific-popup.min.js" />
     <Content Include="static\js\jquery.min.js" />
+    <Content Include="static\js\jquery.waypoints.min.js" />
+    <Content Include="static\js\magnific-popup-options.js" />
+    <Content Include="static\js\main.js" />
+    <Content Include="static\js\modernizr-2.6.2.min.js" />
+    <Content Include="static\js\owl.carousel.min.js" />
     <Content Include="static\js\template.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -258,6 +270,9 @@
     <Content Include="static\less\mixins.less" />
     <Content Include="static\less\navbar.less" />
     <Content Include="static\less\styles.less" />
+    <Content Include="Views\Personal\MyArticles.cshtml" />
+    <Content Include="Views\Personal\ViewPage1.cshtml" />
+    <Content Include="Views\Article\AllArticleList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,6 +13,8 @@ namespace BlogSystem.BLL
 {
     public class ArticleManager : IArticleManager
     {
+
+
         public async Task CreateArticle(string title, string content, Guid[] categoryIds, Guid userId)
         {
             using (var articleSvc = new ArticleService())
@@ -181,6 +183,44 @@ namespace BlogSystem.BLL
         {
             throw new NotImplementedException();
         }
+        /// <summary>
+        /// 获取所有文章
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<List<ArticleDto>> GetAllArticles(int pageIndex, int pageSize)
+        {
+            using (var articleService = new ArticleService())
+            {
+                var list = await articleService
+                    .GetAllByPageOrderAsync(pageSize, pageIndex, false)
+                   
+                    .Select(m => new ArticleDto()
+                    {
+                        Title = m.Title,
+                        Content = m.Content,
+                        GoodConut = m.GoodConut,
+                        Eamil = m.User.Email,
+                        CreateTime = m.CreateTime,
+                        BadCount = m.BadCount,
+                        Id = m.Id,
+                        ImagePath = m.User.ImagePath,
+                        TimeInterval = "null"
+                    }).ToListAsync();
+
+                foreach (var item in list)
+                {
+
+                    item.Content = CommonMethods.SplitString(item.Content, 45, "...");
+                    item.TimeInterval = CommonMethods.ComputeTime(item.CreateTime);
+
+                }
+                return list;
+            }
+        }
+
 
         /// <summary>
         /// 查找当前用户所有文章类别
@@ -221,7 +261,7 @@ namespace BlogSystem.BLL
                 {
                     await articleToCategoryService.RemoveAsync(categoryId);
                 }
-              
+
                 using (IDAL.IArticleService articleService = new ArticleService())
                 {
                     await articleService.RemoveAsync(articleId);
@@ -230,7 +270,7 @@ namespace BlogSystem.BLL
                 }
 
             }
-          
+
 
         }
         /// <summary>
@@ -288,6 +328,24 @@ namespace BlogSystem.BLL
                 return await articleService.GetAllAsync().CountAsync(m => m.UserId == UserId);
             }
         }
+        //获取当前文章的评论总数量
+        public async Task<int> GetCommentsForArticleCountByArticleId(Guid ArticleId)
+        {
+           
+            using (IDAL.ICommentService commentService=new CommentService())
+            {
+                return await commentService.GetAllAsync().CountAsync(m=>m.ArticleId== ArticleId);
+
+            }
+        }
+
+        public async Task<int> GetDataCount()
+        {
+            using (IDAL.IArticleService articleService = new ArticleService())
+            {
+                return await articleService.GetAllAsync().CountAsync();
+            }
+        }
         //点赞
         public async Task GoodCountAdd(Guid articleId)
         {
@@ -343,5 +401,9 @@ namespace BlogSystem.BLL
                      }).ToListAsync();
             }
         }
+
+
+
+
     }
 }

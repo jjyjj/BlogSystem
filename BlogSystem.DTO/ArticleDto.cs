@@ -18,8 +18,14 @@ public    class ArticleDto
         public int GoodConut { get; set; }
         public int BadCount { get; set; }
         public string ImagePath { get; set; }
-
         public string[] CategoryNames { get; set; }
         public Guid[] CategoryIds { get; set; }
+
+        //时间差
+        public string TimeInterval { get; set; }
+        //评论数
+        public int TotalComments { get; set; }
+
+
     }
 }
