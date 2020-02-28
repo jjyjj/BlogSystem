@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "EditArticle";
+    
 }
 
 <h2>EditArticle</h2>
@@ -96,8 +97,8 @@
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.CategoryIds, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <ul>
+            <div class="col-md-10">8
++                <ul>
                     @foreach (var categoryItem in ViewBag.CategoryIds)
                     {
                         <li class="categoryIds">
@@ -105,7 +106,7 @@
                                    @(Model.CategoryIds.Contains(((BlogSystem.Dto.BlogCategoryDto)categoryItem).Id) ? "checked" : "")
                                    value="@categoryItem.Id" /> @categoryItem.CategoryName
                             </li>
-                        }
+                     }
                 </ul>
             </div>
         </div>

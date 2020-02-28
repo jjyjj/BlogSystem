@@ -36,18 +36,39 @@
                 </div>
 
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
+
+
+                    <ul class="nav navbar-nav nav-tabs">
                         <li>
                             <a href="#">主页</a>
                         </li>
-                        <li>
-                            <a href="#">我的</a>
+                        <li class="dropdown" ">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                我的
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="Article/ArticleList2">我的发布</a>
+                                </li>
+                                <li>
+                                    <a href="Article/CreateArticle">发布新博客</a>
+                                </li>
+                                <li>
+
+                                    <a href="Article/CreateArticle">管理个人资料</a>
+                                </li>
+
+                            </ul>
                         </li>
                         <li>
                             <a href="#">博客墙</a>
                         </li>
                         <li>
                             <a href="#">吐槽</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="glyphicon glyphicon-search"></i></a>
                         </li>
                     </ul>
 
@@ -71,7 +92,7 @@
 
                                 <div class="blog-entry">
                                     <div class="blog-img">
-                                        <a href="/Article/ArticleDetails/@item.Id"> <img onerror="this.src='../images/sys/error-img.png'" src="~/static/images/avatar_woman.png" class="img-responsive" alt="html5 bootstrap template"></a>
+                                        <a href="/Article/ArticleDetails/@item.Id"> <img src="@item.ArticleImgUrls" class="img-responsive" alt="ss"></a>
                                     </div>
                                     <div class="desc" style="height:200px">
 
@@ -119,11 +140,13 @@
         </div>
     </main>
 
+    <script src="~/static/js/jq.js"></script>
 
+    <script src="~/static/js/boot.js"></script>
     <script type="text/javascript" src="~/static/js/jquery.min.js"></script>
     <script type="text/javascript" src="~/static/js/bootstrap.min.js"></script>
     <script src="~/static/js/template.js"></script>
- 
+
     <style>
         .pagination {
             display: flex;

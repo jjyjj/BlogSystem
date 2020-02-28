@@ -1,7 +1,9 @@
-﻿using BlogSystem.Dto;
+﻿using BlogSystem.DAL;
+using BlogSystem.Dto;
 using BlogSystem.IBLL;
 using BlogSystem.Models;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +22,7 @@ namespace BlogSystem.BLL
                 {
                     Email = email,
                     Password = password,
-                    SiteName = "默认的小站",
+                    SiteName = "小码农",
                     ImagePath = "~/Image/defult.png"
                 });
             }
@@ -60,14 +62,15 @@ namespace BlogSystem.BLL
             }
         }
 
-        public async Task ChangeUserInformation(string email, string siteName, string imagePath)
+        public async Task ChangeUserInformation(Guid id, string email, string siteName, string imagePath, string passWord)
         {
             using (IDAL.IUserService userSvc = new DAL.UserService())
             {
 
-                var user = await userSvc.GetAllAsync().FirstAsync(m => m.Email == email);
+                var user = await userSvc.GetAllAsync().FirstAsync(m => m.Id == id);
                 user.SiteName = siteName;
                 user.ImagePath = imagePath;
+                user.Password = passWord;
                 await userSvc.EditAsync(user);
 
             }
@@ -94,6 +97,54 @@ namespace BlogSystem.BLL
                 {
                     throw new ArgumentException("邮箱地址不存在");
                 }
+            }
+        }
+
+        public async Task<UserInformationDto> GetOneUserById(Guid userId)
+        {
+            using (IDAL.IUserService userService = new UserService())
+            {
+                return await userService.GetAllAsync()
+                    .Where(m => m.Id == userId)
+                    .Select(m => new Dto.UserInformationDto()
+                    {
+                        Id = m.Id,
+                        Email = m.Email,
+                        ImagePath = m.ImagePath,
+                        SiteName = m.SiteName,
+                        PassWord = m.Password
+                    }).FirstAsync();//取出该条数据;
+
+            }
+        }
+
+        public async Task<int> GetDataCount()
+        {
+            using (IDAL.IUserService userService = new UserService())
+            {
+                return await userService.GetAllAsync().CountAsync();
+            }
+        }
+        public async Task<List<UserInformationDto>> GetAllUsers(int pageIndex, int pageSize)
+        {
+            using (var userService = new UserService())
+            {
+                var list = await userService
+                    .GetAllByPageOrderAsync(pageSize, pageIndex, false)
+
+                    .Select(m => new UserInformationDto()
+                    {
+                        Id=m.Id,
+                        SiteName = m.SiteName,
+                        Email = m.Email,
+                        ImagePath = m.ImagePath,
+                        PassWord = m.Password,
+                        FansCount = m.FansCount,
+                        FocusCount = m.FocusCount,
+                        CreateTime=m.CreateTime
+                        
+                    }).ToListAsync();
+                return list;
             }
         }
     }

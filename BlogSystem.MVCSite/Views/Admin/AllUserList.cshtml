@@ -1,0 +1,234 @@
+﻿
+@using Webdiyer.WebControls.Mvc
+@model  Webdiyer.WebControls.Mvc.PagedList<BlogSystem.Dto.UserInformationDto>
+@{
+    ViewBag.Title = "AllUserList";
+    Layout = "~/Views/Shared/layui-admin.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/static/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+
+    <div class="layui-tab-item layui-show">
+        <div class="layui-main">
+            <div id="LAY_preview">
+                <div class="layui-form-item ">
+                    <div class="layui-row">
+                        <div class="layui-col-xs4">
+                            
+                        </div>
+                        <div class="layui-col-xs4">
+                            <div class="grid-demo">
+                                <div class="grid-demo grid-demo-bg1">
+                                    <div class="input-group ">
+                                        <input type="text" class="form-control" placeholder="">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default
+                        dropdown-toggle" data-toggle="dropdown">
+                                                快速搜索
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li>
+                                                    <a href="#">功能</a>
+                                                </li>
+
+                                            </ul>
+                                        </div><!-- /btn-group -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-xs4">
+                            <div class="grid-demo"></div>
+                        </div>
+                    </div>
+                    <!-- /input-group -->
+
+
+
+                </div>
+                <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-1" lay-id="test">
+                    <div class="layui-table-box">
+                        <div class="layui-table-header">
+
+                            <table cellspacing="0" cellpadding="0" border="0" class="layui-table" style="width:100%">
+
+                                <thead>
+
+                                    <tr data-field="id" data-key="1-0-0" class=" layui-unselect">
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>头像</span>
+
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>昵称</span>
+                                                <span class="layui-table-sort layui-inline">
+                                                    <i class="layui-edge layui-table-sort-asc" title="升序"></i>
+                                                    <i class="layui-edge layui-table-sort-desc" title="降序"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>邮箱</span>
+                                                <span class="layui-table-sort layui-inline">
+                                                    <i class="layui-edge layui-table-sort-asc" title="升序"></i>
+                                                    <i class="layui-edge layui-table-sort-desc" title="降序"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>密码</span>
+
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>粉丝数</span>
+                                                <span class="layui-table-sort layui-inline">
+                                                    <i class="layui-edge layui-table-sort-asc" title="升序"></i>
+                                                    <i class="layui-edge layui-table-sort-desc" title="降序"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>关注数</span>
+                                                <span class="layui-table-sort layui-inline">
+                                                    <i class="layui-edge layui-table-sort-asc" title="升序"></i>
+                                                    <i class="layui-edge layui-table-sort-desc" title="降序"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>创建时间</span>
+                                                <span class="layui-table-sort layui-inline">
+                                                    <i class="layui-edge layui-table-sort-asc" title="升序"></i>
+                                                    <i class="layui-edge layui-table-sort-desc" title="降序"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>状态</span>
+
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>操作</span>
+
+                                            </div>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr data-index="0" class="">
+                                        <td>
+                                            <div class="layui-table-cell">   <img src="@Html.DisplayFor(modelItem => item.ImagePath)" class="layui-nav-img" alt="Alternate Text" />  </div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.SiteName)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.Email)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.PassWord)</div>
+                                        </td>
+
+                                        <td>
+                                            <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.FansCount)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.FocusCount)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.CreateTime)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell">    </div>
+                                        </td>
+                                        <td>
+                                            <a class="layui-btn layui-btn-xs" href="../Article/EditArticle/@item.Id">编辑</a>
+                                            |   <a class="layui-btn layui-btn layui-btn-xs" href="../Article/ArticleDetails/@item.Id" style="background-color:dodgerblue">详情</a>
+                                            |
+                                            <a class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                            <div class="layui-table-page">
+                                <nav>
+                                    @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "pageIndex", ContainerTagName = "ul", CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"> <a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"> <a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>", Id = "bootstrappager" })
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="~/static/layui/layui.js"></script>
+    <script src="~/static/js/jquery.min.js"></script>
+    <script src="~/static/js/bootstrap.min.js"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+    <style>
+        .pagination {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin: 0;
+            padding: 3px;
+        }
+    </style>
+    <script>
+
+layui.use('table', function(){
+  var table = layui.table;
+
+  table.render({
+    elem: '#test'
+    ,url:'/demo/table/user/'
+    ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+      layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+      //,curr: 5 //设定初始在第 5 页
+      ,groups: 1 //只显示 1 个连续页码
+      ,first: false //不显示首页
+      ,last: false //不显示尾页
+
+    }
+
+
+  });
+});
+    </script>
+
+</body>
+</html>

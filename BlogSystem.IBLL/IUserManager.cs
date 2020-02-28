@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BlogSystem.Dto;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BlogSystem.IBLL
@@ -9,8 +11,10 @@ namespace BlogSystem.IBLL
        bool Login(string email, string password,out Guid userId);
 
         Task ChangePassword(string email, string oldPwd, string newPwd);
-        Task ChangeUserInformation(string email, string siteName, string imagePath);
+        Task ChangeUserInformation(Guid id,string email, string siteName, string imagePath,string passWord);
         Task<Dto.UserInformationDto> GetUserByEmail(string email);
 
+        Task<Dto.UserInformationDto> GetOneUserById(Guid userId);
+        Task<List<UserInformationDto>> GetAllUsers(int pageIndex, int pageSize);
     }
 }

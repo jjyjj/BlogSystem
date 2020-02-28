@@ -61,26 +61,7 @@ namespace BlogSystem.MVCSite.Controllers
             ModelState.AddModelError("", "添加失败");
             return View();
         }
-        /// <summary>
-        /// 个人文章列表
-        /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<ActionResult> ArticleList(int pageIndex = 0, int pageSize = 3)
-        {
-            //需要给页面前端 总页码数，当前页码，可显示的总页码数量
-
-            var articleMgr = new ArticleManager();
-            var userid = Guid.Parse(Session["userid"].ToString());
-            var artciles = await new ArticleManager().GetAllArticlesByUserId(userid, pageIndex, pageSize);
-            var dataCount = await articleMgr.GetDataCount(userid);
-
-            ViewBag.PageCount = dataCount % pageSize == 0 ? dataCount / pageSize : dataCount / pageSize + 1;
-            ViewBag.PageIndex = pageIndex;
-            return View(artciles);
-        }
+  
         /// <summary>
         ///获取当前用户的所有文章
         /// </summary>
@@ -98,7 +79,7 @@ namespace BlogSystem.MVCSite.Controllers
             var artciles = await new ArticleManager().GetAllArticlesByUserId(userid, pageIndex - 1, pageSize);
             //获取总共多少条
             var dataCount = await articleMgr.GetDataCount(userid);
-
+            ViewBag.User= await new UserManager().GetOneUserById(userid);
 
             return View(new PagedList<Dto.ArticleDto>(artciles, pageIndex, pageSize, dataCount));
         }
@@ -128,14 +109,15 @@ namespace BlogSystem.MVCSite.Controllers
         //查看文章详情
         public async Task<ActionResult> ArticleDetails(Guid? id)
         {
-
+            
             var articleMgr = new ArticleManager();
 
             if (!await new ArticleManager().ExistsArticle(id.Value) || id == null)
 
-                return RedirectToAction(nameof(ArticleList));
+                return RedirectToAction(nameof(AllArticleList));
 
             ViewBag.Comments = await articleMgr.GetCommentsByArticleId(id.Value);
+          
 
             return View(await articleMgr.GetOneArticleById(id.Value));
 
@@ -207,10 +189,6 @@ namespace BlogSystem.MVCSite.Controllers
             IBLL.IArticleManager articleManager = new ArticleManager();
          
                 await articleManager.RemoveArticle(id);
-       
-          
-                
-         
            
             return Json(new { result = "ok" });
         }

@@ -10,5 +10,6 @@ namespace BlogSystem.Dto
     {
         public Guid Id { get; set; }
         public string CategoryName { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

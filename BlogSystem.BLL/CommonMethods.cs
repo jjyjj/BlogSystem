@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace BlogSystem.BLL
 {
@@ -40,7 +41,33 @@ namespace BlogSystem.BLL
         {
             DateTime NowTime = DateTime.Now;
             TimeSpan ts = NowTime - bingTime;
-            return ts.Days.ToString() +"天"+ ts.Hours + "时" +ts.Minutes + "分前" ;
+            return ts.Days.ToString() + "天" + ts.Hours + "时" + ts.Minutes + "分前";
+
+        }
+        /// <summary>
+        /// 取得HTML中所有图片的URL
+        /// </summary>
+        /// <param name="sHtmlText"></param>
+        /// <returns></returns>
+        public static string[] GetHtmlImageUrlList(string sHtmlText)
+        {
+            // 定义正则表达式用来匹配 img 标签   
+            Regex regImg = new Regex(@"<img\b[^<>]*?\bsrc[\s\t\r\n]*=[\s\t\r\n]*[""']?[\s\t\r\n]*(?<imgUrl>[^\s\t\r\n""'<>]*)[^<>]*?/?[\s\t\r\n]*>", RegexOptions.IgnoreCase);
+
+            // 搜索匹配的字符串   
+            MatchCollection matches = regImg.Matches(sHtmlText);
+            int i = 0;
+            string[] sUrlList = new string[matches.Count];
+            if (matches.Count==0)
+            {
+                sUrlList = new string[1];
+                sUrlList[0] = "0.png";
+            }
+            // 取得匹配项列表   
+            foreach (Match match in matches)
+                sUrlList[i++] = match.Groups["imgUrl"].Value;
+
+            return sUrlList;
 
         }
     }

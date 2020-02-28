@@ -1,5 +1,6 @@
 ﻿@model BlogSystem.Dto.ArticleDto
 
+
 @{
     ViewBag.Title = "ArticleDetails";
 }
@@ -10,7 +11,7 @@
 
 <head>
     <meta charset="utf-8">
-  
+
     <link rel="shortcut icon" href="~/static/images/gt_favicon.png">
     <link rel="stylesheet" href="~/static/css/bootstrap.no-icons.min.css" />
     <link rel="stylesheet" href="~/static/css/font-awesome.css" />
@@ -65,7 +66,7 @@
                         <h1 class="entry-title"><a href="#" rel="bookmark"> @Html.DisplayFor(model => model.Title)</a></h1>
                         <div style="width:60%;margin: 20px auto ">
                             <ul class="nav-justified nav">
-                                <li>  <span class="author"><span class="glyphicon glyphicon-user">：</span><span class="posted-on">蒋金园</span></span></li>
+                                <li>  <span class="author"><span class="glyphicon glyphicon-user">：</span><span class="posted-on">@Model.Name</span></span></li>
                                 <li> <span class="posted-on"><time class="entry-date published" date="2013-06-17"><span class="glyphicon glyphicon-time">：</span>@Html.DisplayFor(model => model.CreateTime)</time></span></li>
                                 <li> <span class="	glyphicon glyphicon-eye-open">：</span><span class="posted-on">20</span></li>
                             </ul>
@@ -84,7 +85,7 @@
                         <div class="row">
                             <div class="col-md-4 text-left">
                                 <p>
-                                    本文作者为蒋金园，如需转载，请说明;
+                                    本文作者为 @Model.Name ，如需转载，请说明;
                                     <br />如需商用请联系 @Html.DisplayFor(model => model.Eamil)
                                 </p>
 
@@ -156,13 +157,14 @@
                                         @using System.Text;
                                         @{
                                             string src = Model.ImagePath;
-                                            string[] srcArry = src.Split('~');
+
+                                            string[] srcArry = src.Split('/');
                                         }
 
-                                        <img src="   @Html.Raw(srcArry[1].ToString())" alt="Avatar" class="avatar">
+                                        <img src="@Html.Raw("/"+srcArry[1].ToString()+"/"+srcArry[2].ToString())" alt="Avatar" class="avatar">
 
                                         <div class="comment-meta">
-                                            <span class="author"><a href="#"> @commnet.Email</a></span>
+                                            <span class="author"><a href="#"> @commnet.Name</a></span>
                                             <span class="date"><a href="#">@commnet.CreateTime</a></span>
                                             <span class="reply"><a href="#">回复</a></span>
                                         </div>

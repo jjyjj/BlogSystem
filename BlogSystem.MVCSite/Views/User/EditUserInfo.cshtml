@@ -1,0 +1,145 @@
+﻿@model BlogSystem.MVCSite.Models.UserViewModels.ChangeUserInfoViewModel
+
+@{
+    ViewBag.Title = "EditUserInfo";
+    Layout = "~/Views/Shared/layui-user.cshtml";
+    ViewBag.userImg = Model.ImagePath;
+    ViewBag.userName = Model.SiteName;
+}<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/static/layui/css/layui.css" rel="stylesheet" />
+
+<form id="student_sfm" method="post" enctype="multipart/form-data" class="layui-form layui-form-pane" action="" style="width:50%;margin:0 100px  auto;margin-top:100px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称:</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="请输入昵称" class="layui-input" value="@Model.SiteName">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱:</label>
+        <div class="layui-input-block">
+            <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input"
+                   value="@Model.Email">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码:</label>
+        <div class="layui-input-block">
+            <div class="input-group">
+                <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input " value="@Model.PassWord">
+                <span class="input-group-btn">
+                  
+                        <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+                
+                </span>
+            </div>
+
+          
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+
+
+        <label class="layui-form-label">设置头像:</label>
+
+        <div class="layui-input-block">
+            <div id="demo" class="">
+                <input name="image" type="file" id="image" style="display: none" />
+
+                <div class="input-append">
+
+                    <div class="input-group">
+
+                        <input id="showname" class="layui-input" type="text" placeholder="默认">
+
+
+                        <span class="input-group-btn">
+                            <a class="btn browse" onclick="makeThisfile()" id="browse">浏览</a>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">座右铭：</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" maxlength="25" lay-verify="title" autocomplete="off" placeholder="请写下您最喜欢的一句话" class="layui-input" value="@Model.SiteName">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script src="~/static/js/jquery.min.js"></script>
+<script src="~/static/js/bootstrap.min.js"></script>
+<script src="~/static/layui/layui.js"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer;
+        //监听指定开关
+        form.on('switch(switchTest)', function (data) {
+            layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+           
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+   
+
+      
+
+    });
+</script>
+<script>
+    //触发隐藏的file表单
+    function makeThisfile() {
+        $('#image').click();
+    }
+
+    //file表单选中文件时,让file表单的val展示到showname这个展示框
+    $('#image').change(function () {
+        $('#showname').val($(this).val())
+    })
+    // 保存图片
+    function saveStudent() {
+        $("#student_sfm").form("submit", {
+            url: "../../Controllers/EditUserInfo", // 上传图片链接
+            success: function (result) {
+                if (result == "success") {
+                    $.messager.alert("系统提示", "保存成功！");
+                    resetForm();
+                } else if (result == "error") {
+                    $.messager.alert("系统提示", "保存失败！");
+                    return;
+                }
+            }
+        })
+    }
+</script>
+<style>
+
+
+
+    .browse {
+        order: 1px solid #ccc;
+        padding: 4px;
+        border-radius: 4px;
+        background-color: #2c9a8a;
+        color: #fff;
+        width: 90px;
+        height:38px
+    }
+</style>

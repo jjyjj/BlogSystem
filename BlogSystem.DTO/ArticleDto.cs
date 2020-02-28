@@ -25,7 +25,9 @@ public    class ArticleDto
         public string TimeInterval { get; set; }
         //评论数
         public int TotalComments { get; set; }
-
+        //文章图片
+        public string ArticleImgUrls { get; set; }
+  public string Name { get; set; }
 
     }
 }

@@ -12,6 +12,7 @@ namespace BlogSystem.IBLL
         Task CreateCategory(string name, Guid userId);
         //查看当前用户的所有类别
         Task<List<Dto.BlogCategoryDto>> GetAllCategories(Guid userId, int pageIndex, int pageSize);
+   
         //根据用户Id去查找文章
         Task<List<Dto.ArticleDto>> GetAllArticlesByUserId(Guid userId);
         //根据用户name去查找文章

@@ -163,8 +163,13 @@ namespace BlogSystem.BLL
                         CreateTime = m.CreateTime,
                         BadCount = m.BadCount,
                         Id = m.Id,
-                        ImagePath = m.User.ImagePath
+                        ImagePath = m.User.ImagePath,
+
                     }).ToListAsync();
+                foreach (var item in list)
+                {
+                    item.Content = CommonMethods.SplitString(item.Content, 300, "...");
+                }
                 using (IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService())
                 {
                     foreach (var articleDto in list)
@@ -196,7 +201,7 @@ namespace BlogSystem.BLL
             {
                 var list = await articleService
                     .GetAllByPageOrderAsync(pageSize, pageIndex, false)
-                   
+
                     .Select(m => new ArticleDto()
                     {
                         Title = m.Title,
@@ -207,12 +212,14 @@ namespace BlogSystem.BLL
                         BadCount = m.BadCount,
                         Id = m.Id,
                         ImagePath = m.User.ImagePath,
-                        TimeInterval = "null"
+                        TimeInterval = "null",
+                        ArticleImgUrls = "null"
                     }).ToListAsync();
 
                 foreach (var item in list)
                 {
-
+                    string[] ss = CommonMethods.GetHtmlImageUrlList(item.Content);
+                    item.ArticleImgUrls = ss[0];
                     item.Content = CommonMethods.SplitString(item.Content, 45, "...");
                     item.TimeInterval = CommonMethods.ComputeTime(item.CreateTime);
 
@@ -239,12 +246,32 @@ namespace BlogSystem.BLL
                 }).ToListAsync();
             }
         }
+        /// <summary>
+        /// 查看所有类别
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<BlogCategoryDto>> GetAllCategories()
+        {
+            using (IDAL.IBlogCategory categoryService = new BlogCategoryService())
+            {
+                return await categoryService.GetAllAsync().Select(m => new BlogCategoryDto()
+                {
+                    Id = m.Id,
+                    CategoryName = m.CategoryName,
+                    CreateTime=m.CreateTime
 
+                }).ToListAsync();
+            }
+        }
         public Task<List<BlogCategoryDto>> GetAllCategories(Guid userId, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
-
+        public Task<List<BlogCategoryDto>> GetAllCategories( int pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
 
 
         /// <summary>
@@ -304,7 +331,9 @@ namespace BlogSystem.BLL
                         CreateTime = m.CreateTime,
                         Eamil = m.User.Email,
                         GoodConut = m.GoodConut,
-                        ImagePath = m.User.ImagePath
+                        ImagePath = m.User.ImagePath,
+                        Name = m.User.SiteName
+
                     }).FirstAsync();//取出该条数据
                 using (IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService())
                 {
@@ -331,10 +360,10 @@ namespace BlogSystem.BLL
         //获取当前文章的评论总数量
         public async Task<int> GetCommentsForArticleCountByArticleId(Guid ArticleId)
         {
-           
-            using (IDAL.ICommentService commentService=new CommentService())
+
+            using (IDAL.ICommentService commentService = new CommentService())
             {
-                return await commentService.GetAllAsync().CountAsync(m=>m.ArticleId== ArticleId);
+                return await commentService.GetAllAsync().CountAsync(m => m.ArticleId == ArticleId);
 
             }
         }
@@ -397,13 +426,11 @@ namespace BlogSystem.BLL
                          Content = m.Content,
                          CreateTime = m.CreateTime,
                          UserId = m.UserId,
-                         Email = m.User.Email
+                         Email = m.User.Email,
+                         Name = m.User.SiteName
                      }).ToListAsync();
             }
         }
-
-
-
 
     }
 }

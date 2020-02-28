@@ -1,10 +1,12 @@
-﻿@using Webdiyer.WebControls.Mvc
-@model  Webdiyer.WebControls.Mvc.PagedList<BlogSystem.Dto.ArticleDto>
+﻿@model BlogSystem.MVCSite.Models.UserViewModels.ChangeUserInfoViewModel
 
 @{
-    ViewBag.Title = "ArticleList";
-    
+    ViewBag.Title = "EditUserInfo1";
+
 }
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +49,7 @@
                         <div class="carousel-caption">
                             <div id="logo" class="text-center">
                                 <h3 id="logo" class="text-center">
-                                    <img class="img-circle" src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
+                                    <img class="img-circle" src="~/Image/defult.png" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
                                     <span class="title"></span>
                                     <span class="tagline" style="color:black;font-size:25px">野蛮而生长，自由而向上</span>
                                 </h3>
@@ -58,7 +60,7 @@
                         <img src="~/Image/Banners/2019071418.jpg" />
                         <div class="carousel-caption">
                             <h3 id="logo" class="text-center">
-                                <img class="img-circle"  src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
+                                <img class="img-circle" src="~/Image/defult.png" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
                                 <span class="title"></span>
                                 <span class="tagline" style="color:black;font-size:25px">野蛮而生长，自由而向上</span>
                             </h3>
@@ -69,7 +71,7 @@
                         <img src="~/Image/Banners/2019102802.jpg" />
                         <div class="carousel-caption">
                             <h3 id="logo" class="text-center">
-                                <img class="img-circle"  src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
+                                <img class="img-circle" src="~/Image/defult.png" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
                                 <span class="title"></span>
                                 <span class="tagline" style="color:black;font-size:25px">野蛮而生长，自由而向上</span>
                             </h3>
@@ -80,7 +82,7 @@
                         <img src="~/Image/Banners/2019071419.jpg" />
                         <div class="carousel-caption">
                             <h3 id="logo" class="text-center">
-                                <img class="img-circle"  src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
+                                <img class="img-circle" src="~/Image/defult.png" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
 
                                 <span class="title"></span>
                                 <span class="tagline" style="color:black;font-size:25px">野蛮而生长，自由而向上</span>
@@ -150,108 +152,121 @@
         </nav>
     </header>
 
-
     <main id="main">
 
-        <div class="container">
+        <form id="student_sfm" method="post" enctype="multipart/form-data">
 
-            <div class="row topspace">
+            <div class="container">
 
-                <!-- Article main content -->
-                <div class="col-sm-8 maincontent">
-                    @foreach (var item in Model)
-                    {
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
 
+                    <div class="form-horizontal">
 
-                        <article class="post">
-                            <header class="entry-header">
-                                <h3 class="title"><a href="single.html" rel="bookmark">@Html.ActionLink("" + @Html.DisplayFor(modelItem => item.Title) + "", "ArticleDetails", new { id = item.Id })</a></h3>
-                                <div class="entry-meta">
-                                    <span class="posted-on"><time class="entry-date published" date="2013-09-27">@Html.DisplayFor(modelItem => item.CreateTime)</time></span>
-                                </div>
-                            </header>
-                            <div class="entry-content">
-                                <div>     @Html.Raw(item.Content)</div>
-                                <br />
-                                <div>      <span style="float:right" class="more-link">@Html.ActionLink("阅读更多", "ArticleDetails", new { id = item.Id })&#8230;</span></div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+
+                        <div class="form-group">
+
+                            <span class="control-label col-md-2">邮箱</span>
+                            <div class="col-md-10">
+
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="control-label col-md-2">密码</span>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control", type = "password" } })
+                                @Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })
 
                             </div>
-                        </article>
+                        </div>
 
-                    }
+                        <div class="form-group">
+                            <span class="control-label col-md-2">设置头像</span>
+                            <div class="col-md-10">
 
-                </div>
+                                <input name="image" type="file" id="image" style="display: none" />
 
-                <!-- /Article -->
-                <!-- Sidebar -->
-                <aside class="col-md-4 sidebar sidebar-left">
-
-                    <div class="widget">
-                        <h4>分类</h4>
-                        <ul>
-                            @foreach (var item in Model)
-                            {
-                                <li><a href="">@Html.DisplayFor(modelItem => item.CategoryNames)</a> </li>
+                                <div class="input-append">
+                                    <!-- 用于展示上传文件名的表单 -->
+                                    <input id="showname" class="input-large" type="text" style="height:25px;">
+                                    <!-- 点击触发按钮 -->
+                                    <a class="btn browse" onclick="makeThisfile()" id="browse">浏览</a>
+                                </div>
+                                <input type="file" name="name"   value="@Html.Raw(Model.ImagePath)"/>
 
 
-                            }
-                        </ul>
+                                @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="control-label col-md-2">更改昵称</span>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SiteName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SiteName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" class="btn browse" />
+                            </div>
+                        </div>
                     </div>
-
-
-                    <div class="widget">
-                        <h4>当日最热</h4>
-                        <ul>
-                            @foreach (var item in Model)
-                            {
-                                <li><a href="">@Html.DisplayFor(modelItem => item.Title)</a> </li>
-
-
-                            }
-
-                        </ul>
-                    </div>
-
-                    <div class="widget">
-                        <h4>最新评论</h4>
-                        <ul>
-                            <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">2</a></li>
-
-                        </ul>
-                    </div>
-
-                    <div class="widget">
-                        <h4>友情链接</h4>
-                        <ul></ul>
-                    </div>
-
-                </aside>
-                <!-- /Sidebar -->
-
+                    <div style="height:30px"></div>
+                    <hr />
+                }
             </div>
-            <center class="">
 
-                <nav>
-                    @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "pageIndex", ContainerTagName = "ul", CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"> <a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"> <a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>", Id = "bootstrappager" })
-                </nav>
-            </center>
-        </div>
-        <!-- /container -->
-
+        </form>
     </main>
+
 
 
     <script src="~/static/js/jq.js"></script>
 
     <script src="~/static/js/boot.js"></script>
+
+
     <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="~/static/js/jquery.min.js"></script>
 
     <script type="text/javascript" src="~/static/js/bootstrap.min.js"></script>
     <script src="~/static/js/template.js"></script>
     <script>
+        //触发隐藏的file表单
+        function makeThisfile() {
+            $('#image').click();
+        }
+
+        //file表单选中文件时,让file表单的val展示到showname这个展示框
+        $('#image').change(function () {
+            $('#showname').val($(this).val())
+        })
+        // 保存图片
+        function saveStudent() {
+            $("#student_sfm").form("submit", {
+                url: "../../Controllers/EditUserInfo", // 上传图片链接
+                success: function (result) {
+                    if (result == "success") {
+                        $.messager.alert("系统提示", "保存成功！");
+                        resetForm();
+                    } else if (result == "error") {
+                        $.messager.alert("系统提示", "保存失败！");
+                        return;
+                    }
+                }
+            })
+        }
+
+
+
 
         function btnDelete(btn) {
             if (confirm("您确定要删除吗？")) {
@@ -263,9 +278,6 @@
 
                 });
             }
-
-
-
         }
     </script>
     <style>
@@ -276,10 +288,24 @@
             margin: 0;
             padding: 3px;
         }
+
+        .browse {
+            order: 1px solid #ccc;
+            padding: 4px;
+            border-radius: 4px;
+            background-color: #2c9a8a;
+            color: #fff;
+            width: 90px
+        }
     </style>
 </body>
 
 </html>
+
+
+
+
+
 
 
 
