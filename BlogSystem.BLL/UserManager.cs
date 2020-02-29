@@ -23,7 +23,10 @@ namespace BlogSystem.BLL
                     Email = email,
                     Password = password,
                     SiteName = "小码农",
-                    ImagePath = "~/Image/defult.png"
+                    ImagePath = "../Image/defult.png",
+                    State=0,//0未冻结 1冻结
+                    type=0,//0普通用户 1管理员
+                    Motto="野蛮而生长，自由而向上"
                 });
             }
         }
@@ -62,7 +65,7 @@ namespace BlogSystem.BLL
             }
         }
 
-        public async Task ChangeUserInformation(Guid id, string email, string siteName, string imagePath, string passWord)
+        public async Task ChangeUserInformation(Guid id, string email, string siteName, string imagePath, string passWord,string motto)
         {
             using (IDAL.IUserService userSvc = new DAL.UserService())
             {
@@ -71,6 +74,7 @@ namespace BlogSystem.BLL
                 user.SiteName = siteName;
                 user.ImagePath = imagePath;
                 user.Password = passWord;
+                user.Motto = motto;
                 await userSvc.EditAsync(user);
 
             }
@@ -112,7 +116,9 @@ namespace BlogSystem.BLL
                         Email = m.Email,
                         ImagePath = m.ImagePath,
                         SiteName = m.SiteName,
-                        PassWord = m.Password
+                        PassWord = m.Password,
+                        Motto=m.Motto
+                        
                     }).FirstAsync();//取出该条数据;
 
             }

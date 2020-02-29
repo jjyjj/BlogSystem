@@ -11,19 +11,11 @@
         <div class="layui-header">
             <div class="layui-logo"></div>
             <!-- 头部区域（可配合layui已有的水平导航） -->
-            @*<ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item"><a href="">控制台</a></li>
-                <li class="layui-nav-item"><a href="">商品管理</a></li>
-                <li class="layui-nav-item"><a href="">用户</a></li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">其它系统</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="">邮件管理</a></dd>
-                        <dd><a href="">消息管理</a></dd>
-                        <dd><a href="">授权管理</a></dd>
-                    </dl>
-                </li>
-            </ul>*@
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="/Article/AllArticleList">返回首页</a></li>
+               
+                
+            </ul>
                 <ul class="layui-nav layui-layout-right">
                     <li class="layui-nav-item">
                         <a href="javascript:;">
@@ -42,14 +34,14 @@
                 <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                 <ul class="layui-nav layui-nav-tree" lay-filter="test">
                     <li class="layui-nav-item layui-nav-itemed">
-                        <a class="" href="javascript:;">管理我的文章</a>
+                        <a class="" href="../user/PersonalArticleList">管理我的文章</a>
                       
                     </li>
                     <li class="layui-nav-item">
-                        <a href="javascript:;">管理我的个人资料</a>
+                        <a href="../user/EditUserInfo">管理我的个人资料</a>
                         
                     </li>
-                    <li class="layui-nav-item"><a href="">待添加</a></li>
+                    <li class="layui-nav-item"><a href="../user/personalcommentList">查看我的评论</a></li>
                     <li class="layui-nav-item"><a href="">待添加</a></li>
                 </ul>
             </div>

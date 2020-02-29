@@ -10,11 +10,11 @@ using Webdiyer.WebControls.Mvc;
 
 namespace BlogSystem.MVCSite.Controllers
 {
-    [BlogSystemAuth]
+    
     public class UserController : Controller
     {
 
-       
+
         public ActionResult Index()
         {
             return View();
@@ -33,7 +33,7 @@ namespace BlogSystem.MVCSite.Controllers
 
             IBLL.IUserManager userManager = new UserManager();
             await userManager.RegisterAsync(model.Email, model.Password);
-            return Content("注册成功");
+            return RedirectToAction("Login");
 
         }
 
@@ -49,6 +49,7 @@ namespace BlogSystem.MVCSite.Controllers
             {
                 IBLL.IUserManager userManager = new UserManager();
                 Guid userid;
+               
                 if (userManager.Login(model.Email, model.LoginPwd, out userid))
                 {
                     //跳转
@@ -72,7 +73,7 @@ namespace BlogSystem.MVCSite.Controllers
                         Session["userid"] = userid;
                     }
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("../Article/ArticleList2");
                 }
                 else
                 {
@@ -82,6 +83,7 @@ namespace BlogSystem.MVCSite.Controllers
             return View(model);
         }
         //修改个人资料
+        [BlogSystemAuth]
         [HttpGet]
         public async Task<ActionResult> EditUserInfo()
         {
@@ -94,7 +96,8 @@ namespace BlogSystem.MVCSite.Controllers
                 ImagePath = user.ImagePath,
                 SiteName = user.SiteName,
                 Id = user.Id,
-                PassWord = user.PassWord
+                PassWord = user.PassWord,
+                Motto=user.Motto
             });
         }
         [HttpPost]
@@ -105,12 +108,12 @@ namespace BlogSystem.MVCSite.Controllers
             var userid = Guid.Parse(Session["userid"].ToString());
             if (ModelState.IsValid)
             {
-               
+
                 string image = "";
                 string result = "";
                 HttpPostedFileBase imageName = Request.Files["image"];// 从前台获取文件
                 string file = imageName.FileName;
-                if (file!="")
+                if (file != "")
                 {
 
                     string fileFormat = file.Split('.')[file.Split('.').Length - 1]; // 以“.”截取，获取“.”后面的文件后缀
@@ -135,22 +138,22 @@ namespace BlogSystem.MVCSite.Controllers
 
 
                     }
-                   
+
 
                 }
 
                 else
                 {
 
-                 var a = await userManager.GetOneUserById(userid);
+                    var a = await userManager.GetOneUserById(userid);
                     image = a.ImagePath;
-                    
+
                 }
                 user.ImagePath = image;
                 user.SiteName = Request.Form["name"];
-             
-             
-                await userManager.ChangeUserInformation(userid, user.Email, user.SiteName, user.ImagePath, user.PassWord);
+
+                user.Motto = Request.Form["Motto"];
+                await userManager.ChangeUserInformation(userid, user.Email, user.SiteName, user.ImagePath, user.PassWord,user.Motto);
                 return RedirectToAction("../Article/ArticleList2");
             }
             else
@@ -170,8 +173,24 @@ namespace BlogSystem.MVCSite.Controllers
             //获取总共多少条
             var dataCount = await articleMgr.GetDataCount(userid);
 
-
+            ViewBag.Users = await new UserManager().GetOneUserById(userid);
             return View(new PagedList<Dto.ArticleDto>(artciles, pageIndex, pageSize, dataCount));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PersonalCommentList()
+        {
+
+
+
+            var articleMgr = new ArticleManager();
+            var userid = Guid.Parse(Session["userid"].ToString());
+            //当前用户第n页数据
+            var comments = await new ArticleManager().GetCommentsByUsersId(userid);
+
+            ViewBag.Users = await new UserManager().GetOneUserById(userid);
+
+            return View(comments);
         }
 
     }

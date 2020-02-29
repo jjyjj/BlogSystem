@@ -8,7 +8,7 @@ using Webdiyer.WebControls.Mvc;
 
 namespace BlogSystem.MVCSite.Controllers
 {
-    [BlogSystemAuthAttribute]
+  
     public class ArticleController : Controller
     {
 
@@ -28,24 +28,26 @@ namespace BlogSystem.MVCSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                IBLL.IArticleManager articleManager = new ArticleManager();
-                articleManager.CreateCategory(model.CategoryName, Guid.Parse(Session["userid"].ToString()));
+                IBLL.IBlogCategoryManager blogCategoryManager = new BlogCategoryManager();
+                blogCategoryManager.CreateCategory(model.CategoryName, Guid.Parse(Session["userid"].ToString()));
                 return RedirectToAction("CategoryList");
             }
             ModelState.AddModelError("", "您录入的信息有误");
             return View(model);
         }
         [HttpGet]
+
         public async Task<ActionResult> CategoryList()
         {
             var userid = Guid.Parse(Session["userid"].ToString());
-            return View(await new ArticleManager().GetAllCategories(userid));
+            return View(await new BlogCategoryManager().GetAllCategories());
         }
         [HttpGet]
+       
         public async Task<ActionResult> CreateArticle()
         {
             var userid = Guid.Parse(Session["userid"].ToString());
-            ViewBag.CategoryIds = await new ArticleManager().GetAllCategories(userid);
+            ViewBag.CategoryIds = await new BlogCategoryManager().GetAllCategories();
             return View();
         }
         [HttpPost]
@@ -62,13 +64,10 @@ namespace BlogSystem.MVCSite.Controllers
             return View();
         }
   
-        /// <summary>
-        ///获取当前用户的所有文章
-        /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
+      
+        //获取当前用户的所有文章
         [HttpGet]
+        [BlogSystemAuthAttribute]
         public async Task<ActionResult> ArticleList2(int pageIndex = 1, int pageSize = 5)
         {
             //需要给页面前端 总页码数，当前页码，可显示的总页码数量
@@ -84,12 +83,8 @@ namespace BlogSystem.MVCSite.Controllers
             return View(new PagedList<Dto.ArticleDto>(artciles, pageIndex, pageSize, dataCount));
         }
 
-        /// <summary>
-        /// 获取所有文章
-        /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
+     
+        //获取所有文章
         [HttpGet]
         public async Task<ActionResult> AllArticleList(int pageIndex = 1, int pageSize = 6)
         {
@@ -130,7 +125,7 @@ namespace BlogSystem.MVCSite.Controllers
             IBLL.IArticleManager articleManager = new ArticleManager();
             var data = await articleManager.GetOneArticleById(id);
             var userid = Guid.Parse(Session["userid"].ToString());
-            ViewBag.CategoryIds = await new ArticleManager().GetAllCategories(userid);
+            ViewBag.CategoryIds = await new BlogCategoryManager().GetAllCategories();
             return View(new EditArtcileViewModel()
             {
                 Title = data.Title,
@@ -151,8 +146,8 @@ namespace BlogSystem.MVCSite.Controllers
             }
             else
             {
-                var userid = Guid.Parse(Session["userid"].ToString());
-                ViewBag.CategoryIds = await new ArticleManager().GetAllCategories(userid);
+              
+                ViewBag.CategoryIds = await new BlogCategoryManager().GetAllCategories();
                 return View(model);
             }
 
@@ -187,10 +182,14 @@ namespace BlogSystem.MVCSite.Controllers
         public async Task<ActionResult> DeleteOneArtcileById(Guid id)
         {
             IBLL.IArticleManager articleManager = new ArticleManager();
-         
+            if (await articleManager.ExistsArticle(id))
+            {
                 await articleManager.RemoveArticle(id);
-           
-            return Json(new { result = "ok" });
+                return Json(new { result = "ok" });
+            }
+               
+           return Json(new { result = "error" });
+
         }
 
     }

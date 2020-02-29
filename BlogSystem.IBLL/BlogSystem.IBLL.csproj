@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IArticleManager.cs" />
+    <Compile Include="IBlogCategoryManager.cs" />
+    <Compile Include="ICommentManager.cs" />
     <Compile Include="IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

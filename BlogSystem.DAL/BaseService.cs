@@ -26,15 +26,12 @@ namespace BlogSystem.DAL
 
         public async Task RemoveAsync(Guid id, bool saved = true)
         {
-
             _db.Configuration.ValidateOnSaveEnabled = false;
-
             var t = new T() { Id = id };
             _db.Entry(t).State = EntityState.Unchanged;
             t.IsRemoved = true;
             if (saved)
             {
-                await _db.SaveChangesAsync();
                 await _db.SaveChangesAsync();
                 _db.Configuration.ValidateOnSaveEnabled = true;
             }
@@ -87,6 +84,7 @@ namespace BlogSystem.DAL
                      
         public async Task Save()
         {
+            
             await _db.SaveChangesAsync();
             _db.Configuration.ValidateOnSaveEnabled = true;
         }

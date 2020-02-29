@@ -14,7 +14,7 @@
                             @Html.ActionLink("创建新类别", "../article/CreateCategory")
                         </div>
                         <div class="layui-col-xs4">
-                            
+
                         </div>
                         <div class="layui-col-xs4">
                             <div class="grid-demo"></div>
@@ -78,7 +78,7 @@
                                                 <a class="layui-btn layui-btn-xs" href="../Article/EditArticle/@item.Id">编辑</a>
                                                 |   <a class="layui-btn layui-btn layui-btn-xs" href="../Article/ArticleDetails/@item.Id" style="background-color:dodgerblue">详情</a>
                                                 |
-                                                <a class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
+                                                <a onclick="deleteArticle('@item.Id')" class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
                                             </td>
                                         </tr>
                                     }
@@ -87,8 +87,8 @@
                             </table>
                             <div class="layui-table-page">
                                 @*<nav>
-                                    @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "pageIndex", ContainerTagName = "ul", CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"> <a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"> <a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>", Id = "bootstrappager" })
-                                </nav>*@
+                                        @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "pageIndex", ContainerTagName = "ul", CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"> <a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"> <a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>", Id = "bootstrappager" })
+                                    </nav>*@
                             </div>
                         </div>
                     </div>
@@ -118,9 +118,23 @@
             var table = layui.table;
 
 
-            });
         });
+        
     </script>
+    <script>
+        function deleteArticle(articleId) {
+            $.ajax({
+                url: "../Article/DeleteOneArtcileById",
+                type: "post",
+                data: {
+                    Id: articleId,
+                }
+            }).done(() => {
+                alert("删除成功");
+                location.reload();
+            });
+        }
 
+    </script>
 </body>
-</html>
+

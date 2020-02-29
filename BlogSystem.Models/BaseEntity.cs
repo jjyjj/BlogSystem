@@ -9,6 +9,7 @@ namespace BlogSystem.Models
         /// </summary>
         public Guid Id { get; set; } = Guid.NewGuid();
         public DateTime CreateTime { get; set; } = DateTime.Now;
+        public int State { get; set; }
         public bool IsRemoved { get; set; }
     }
 }

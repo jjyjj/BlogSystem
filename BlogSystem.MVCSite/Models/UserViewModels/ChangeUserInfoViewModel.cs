@@ -13,6 +13,7 @@ namespace BlogSystem.MVCSite.Models.UserViewModels
         public string PassWord { get; set; }
         public string ImagePath { get; set; }
         public string SiteName { get; set; }
-        
+        public string Motto{ get; set; }
+
     }
 }

@@ -46,26 +46,7 @@ namespace BlogSystem.BLL
 
         }
 
-        public async Task CreateCategory(string name, Guid userId)
-        {
-            //using (var categorySvc = new BlogCategoryService())
-            //{
-            //    await categorySvc.CreateAsync(new BlogCategory()
-            //    {
-            //        CategoryName = name,
-            //        UserId = userId
-            //    });
-            //}
-            using (IDAL.IBlogCategory s = new BlogCategoryService())
-            {
-                await s.CreateAsync(new BlogCategory()
-                {
-                    CategoryName = name,
 
-                    UserId = userId
-                });
-            }
-        }
         /// <summary>
         /// 编辑文章
         /// </summary>
@@ -108,10 +89,7 @@ namespace BlogSystem.BLL
         /// <param name="categoryId"></param>
         /// <param name="newCategoryName"></param>
         /// <returns></returns>
-        public Task EditCategory(Guid categoryId, string newCategoryName)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async Task<bool> ExistsArticle(Guid articleId)
         {
@@ -211,6 +189,7 @@ namespace BlogSystem.BLL
                         CreateTime = m.CreateTime,
                         BadCount = m.BadCount,
                         Id = m.Id,
+                        Name = m.User.SiteName,
                         ImagePath = m.User.ImagePath,
                         TimeInterval = "null",
                         ArticleImgUrls = "null"
@@ -229,49 +208,6 @@ namespace BlogSystem.BLL
         }
 
 
-        /// <summary>
-        /// 查找当前用户所有文章类别
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<List<BlogCategoryDto>> GetAllCategories(Guid userId)
-        {
-            using (IDAL.IBlogCategory categoryService = new BlogCategoryService())
-            {
-                return await categoryService.GetAllAsync().Where(m => m.UserId == userId).Select(m => new BlogCategoryDto()
-                {
-                    Id = m.Id,
-                    CategoryName = m.CategoryName
-
-                }).ToListAsync();
-            }
-        }
-        /// <summary>
-        /// 查看所有类别
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<List<BlogCategoryDto>> GetAllCategories()
-        {
-            using (IDAL.IBlogCategory categoryService = new BlogCategoryService())
-            {
-                return await categoryService.GetAllAsync().Select(m => new BlogCategoryDto()
-                {
-                    Id = m.Id,
-                    CategoryName = m.CategoryName,
-                    CreateTime=m.CreateTime
-
-                }).ToListAsync();
-            }
-        }
-        public Task<List<BlogCategoryDto>> GetAllCategories(Guid userId, int pageIndex, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<List<BlogCategoryDto>> GetAllCategories( int pageIndex, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
 
 
         /// <summary>
@@ -281,30 +217,33 @@ namespace BlogSystem.BLL
         /// <returns></returns>
         public async Task RemoveArticle(Guid articleId)
         {
+            BlogContext blogContext = new BlogContext();
+
+
 
             using (IDAL.IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService())
             {
-                foreach (var categoryId in articleToCategoryService.GetAllAsync().Where(m => m.ArticleId == articleId))
+                var articleToCategories = articleToCategoryService.GetAllAsync().Where(m => m.ArticleId == articleId);
+                foreach (var articleToCategoryId in articleToCategories)
                 {
-                    await articleToCategoryService.RemoveAsync(categoryId);
+                    blogContext.Entry(articleToCategoryId).State = EntityState.Deleted;
+                    //await articleToCategoryService.RemoveAsync(articleToCategoryId, saved: false);
                 }
 
                 using (IDAL.IArticleService articleService = new ArticleService())
                 {
-                    await articleService.RemoveAsync(articleId);
-                    await articleToCategoryService.Save();
-                    await articleService.Save();
+
+                    blogContext.Entry(new Models.Article { Id = articleId }).State = EntityState.Deleted;
+                    //await articleService.RemoveAsync(articleId, saved: false);
+                    //await articleService.Save();
+                    await blogContext.SaveChangesAsync();
+
                 }
 
             }
-
-
         }
-        /// <summary>
-        /// 删除文章类别
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+
+        //删除文章类别
         public async Task RemoveCategory(Guid categoryId)
         {
 
@@ -398,6 +337,7 @@ namespace BlogSystem.BLL
 
             }
         }
+        #region 评论
         //评论
         public async Task CreateComment(Guid userId, Guid articleId, string content)
         {
@@ -431,6 +371,43 @@ namespace BlogSystem.BLL
                      }).ToListAsync();
             }
         }
+
+
+        //根据用户id获取所有评论      
+        public async Task<List<Dto.CommentDto>> GetCommentsByUsersId(Guid usersId)
+        {
+
+
+            using (IDAL.ICommentService commentService = new CommentService())
+            {
+                var list = await commentService.GetAllOrderAsync(asc: false)
+                     .Where(m => m.UserId == usersId)
+                     .Include(m => m.User)
+                     .Select(m => new Dto.CommentDto()
+                     {
+                         Id = m.Id,
+                         ArticleId = m.ArticleId,
+                         Content = m.Content,
+                         CreateTime = m.CreateTime,
+                         Name = m.User.SiteName
+                     }).ToListAsync();
+                using (IArticleService articleService = new ArticleService())
+                {
+                    foreach (var commentDto in list)
+                    {
+                        var cates = await articleService
+                            .GetAllAsync()
+                            .Where(m => m.Id == commentDto.ArticleId)
+                            .ToListAsync();
+
+                        commentDto.ArticleTitles = cates.Select(m => m.Title).ToArray();
+                    }
+                    return list;
+                }
+            }
+        }
+        #endregion
+
 
     }
 }

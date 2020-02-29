@@ -27,7 +27,7 @@ namespace BlogSystem.MVCSite.Filters
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary()
                 {
-                    {"controller","Home" },
+                    {"controller","User" },
                     {"action","Login" }
                 });
             }

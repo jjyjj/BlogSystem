@@ -25,5 +25,6 @@ namespace BlogSystem.Models
         /// 反对数
         /// </summary>
         public int BadCount { get; set; }
+        public int BrowseCount { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlogSystem.Models;
+using System;
 
 namespace BlogSystem.Dto
 {
@@ -11,5 +12,8 @@ namespace BlogSystem.Dto
         public Guid ArticleId { get; set; }
         public string Content { get; set; }
         public DateTime CreateTime { get; set; }
+        public string [] ArticleTitles { get; set; }
+        public User User { get; set; }
+     
     }
 }

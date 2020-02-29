@@ -14,7 +14,8 @@ namespace BlogSystem.Models
         public string Password { get; set; }
         [Required, StringLength(maximumLength: 300), Column(TypeName = "varchar")]
         public string ImagePath { get; set; }
-
+        public string Motto { get; set; }
+        public int type { get; set; }
         /// <summary>
         /// 关注数
         /// </summary>

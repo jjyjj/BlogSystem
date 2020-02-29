@@ -11,7 +11,7 @@ namespace BlogSystem.IBLL
        bool Login(string email, string password,out Guid userId);
 
         Task ChangePassword(string email, string oldPwd, string newPwd);
-        Task ChangeUserInformation(Guid id,string email, string siteName, string imagePath,string passWord);
+        Task ChangeUserInformation(Guid id,string email, string siteName, string imagePath,string passWord,string motto);
         Task<Dto.UserInformationDto> GetUserByEmail(string email);
 
         Task<Dto.UserInformationDto> GetOneUserById(Guid userId);

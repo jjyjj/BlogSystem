@@ -1,57 +1,56 @@
 ﻿@model BlogSystem.MVCSite.Models.UserViewModels.RegisterViewModel
-
 @{
     ViewBag.Title = "Register";
+    Layout = null;
 
 }
+<link href="~/static/1/css/style.css" rel="stylesheet" />
 
-<h2>Register</h2>
+<main>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>RegisterViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        <form class="form">
+            <div class="form__cover"></div>
+            <div class="form__loader">
+                <div class="spinner active">
+                    <svg class="spinner__circular" viewBox="25 25 50 50">
+                        <circle class="spinner__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                    </svg>
+                </div>
             </div>
-        </div>
+            <div class="form__content">
+                <h1>我即将成为一个小码农</h1>
+               
+                <div class="styled-input">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "styled-input__input" } })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+                    <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Email</span> </div>
+                    <div class="styled-input__circle"></div>
+                </div>
+                <div class="styled-input">
+
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "styled-input__input", @type = "password" } })
+                    <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Password</span> </div>
+                    <div class="styled-input__circle"></div>
+                </div>
+                <div class="styled-input">
+                  
+                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "styled-input__input" ,@type= "password" } })
+                    <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">ConfirmPassword</span> </div>
+                    <div class="styled-input__circle"></div>
+                </div>
+                <button type="submit" class="styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">注册</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">注册</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">注册</span> </span> </span> </span> </button>
+                <a href="Login" class="btn styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">已有账号，前往登录</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">已有账号，前往登录</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">已有账号，前往登录</span> </span> </span> </span> </a>
             </div>
-        </div>
+        </form>
+    }
+</main>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-            </div>
-        </div>
+<script src="~/static/1/js/index.js"></script>
+<script src="~/static/js/jquery.min.js"></script>
+<script>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+</script>

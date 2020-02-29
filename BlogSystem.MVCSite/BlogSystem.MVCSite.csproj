@@ -210,8 +210,13 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="static\1\css\style.css" />
+    <Content Include="static\1\js\index.js" />
+    <Content Include="static\css\bootstrap-combined.no-icons.min.css" />
+    <Content Include="static\css\bootstrap-responsive.min.css" />
     <Content Include="static\css\bootstrap.no-icons.min.css" />
     <Content Include="static\css\font-awesome.css" />
+    <Content Include="static\css\font-awesomev3.02.css" />
     <Content Include="static\css\font_family.css" />
     <Content Include="static\css\icomoon.css" />
     <Content Include="static\css\owl.carousel.min.css" />
@@ -244,6 +249,7 @@
     <Content Include="static\js\modernizr-2.6.2.min.js" />
     <Content Include="static\js\owl.carousel.min.js" />
     <Content Include="static\js\template.js" />
+    <Content Include="static\js\widgets.js" />
     <Content Include="static\layui\css\layui.css" />
     <Content Include="static\layui\css\layui.mobile.css" />
     <Content Include="static\layui\css\modules\code.css" />
@@ -384,7 +390,6 @@
     <Content Include="static\less\styles.less" />
     <Content Include="Views\Article\AllArticleList.cshtml" />
     <Content Include="Views\ViewPage1.cshtml" />
-    <Content Include="Views\User\Edit12UserInfo.cshtml" />
     <Content Include="static\layui\font\iconfont.eot" />
     <Content Include="static\layui\font\iconfont.ttf" />
     <Content Include="static\layui\font\iconfont.woff" />
@@ -396,9 +401,13 @@
     <Content Include="Views\Admin\AllArticleList.cshtml" />
     <Content Include="Views\Admin\CategoryList.cshtml" />
     <Content Include="Views\Admin\AllUserList.cshtml" />
+    <Content Include="Views\User\PersonalCommentList.cshtml" />
+    <Content Include="Views\Admin\AllCommentList.cshtml" />
+    <Content Include="static\1\less\style.less" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\CommentViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

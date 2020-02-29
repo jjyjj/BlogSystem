@@ -87,6 +87,15 @@
                                         </th>
                                         <th>
                                             <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>发布人</span>
+                                                <span class="layui-table-sort layui-inline">
+                                                    <i class="layui-edge layui-table-sort-asc" title="升序"></i>
+                                                    <i class="layui-edge layui-table-sort-desc" title="降序"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
                                                 <span>创建时间</span>
                                                 <span class="layui-table-sort layui-inline">
                                                     <i class="layui-edge layui-table-sort-asc" title="升序"></i>
@@ -133,29 +142,31 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr data-index="0" class="">
-                                            <td>
-                                                <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.Title)</div>
-                                            </td>
-                                            <td>
-                                                <div class="layui-table-cell" style="width:200px"> @Html.DisplayFor(modelItem => item.Content)</div>
-                                            </td>
-                                            <td>
-                                                <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.CreateTime)</div>
-                                            </td>
-                                            <td>
-                                                <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.GoodConut)</div>
-                                            </td>
-                                            <td>
-                                                <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.BadCount)</div>
-                                            </td>
-                                            <td>
-                                                <a class="layui-btn layui-btn-xs" href="../Article/EditArticle/@item.Id">编辑</a>
-                                                |   <a class="layui-btn layui-btn layui-btn-xs" href="../Article/ArticleDetails/@item.Id" style="background-color:dodgerblue">详情</a>
-                                                |
-                                                <a class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
-                                            </td>
-                                        </tr>
+                                    <tr data-index="0" class="">
+                                        <td>
+                                            <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.Title)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell" style="width:200px"> @Html.DisplayFor(modelItem => item.Content)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.Name)</div>
+                                        <td>
+                                            <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.CreateTime)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.GoodConut)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.BadCount)</div>
+                                        </td>
+                                        <td>
+                                            <a class="layui-btn layui-btn-xs" href="../Article/EditArticle/@item.Id">编辑</a>
+                                            |   <a class="layui-btn layui-btn layui-btn-xs" href="../Article/ArticleDetails/@item.Id" style="background-color:dodgerblue">详情</a>
+                                            |
+                                            <a class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
 

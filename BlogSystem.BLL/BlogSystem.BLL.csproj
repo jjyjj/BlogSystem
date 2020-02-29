@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArticleManager.cs" />
+    <Compile Include="BlogCategoryManager.cs" />
+    <Compile Include="CommentManger.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="UserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

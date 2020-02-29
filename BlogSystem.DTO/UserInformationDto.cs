@@ -9,7 +9,7 @@ namespace BlogSystem.Dto
         public string ImagePath { get; set; }
 
         public string PassWord { get; set; }
-
+        public string Motto { get; set; }
         public int FansCount { get; set; }
 
         public int FocusCount { get; set; }

@@ -1,58 +1,58 @@
 ﻿@model BlogSystem.MVCSite.Models.UserViewModels.LoginViewModel
 
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Login"; Layout = null;
 }
+<link href="~/static/1/css/style.css" rel="stylesheet" />
 
-<h2>Login</h2>
+<main>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>LoginViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LoginPwd, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LoginPwd, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LoginPwd, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.RememberMe)
-                    @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
+        <form class="form">
+            <div class="form__cover"></div>
+            <div class="form__loader">
+                <div class="spinner active">
+                    <svg class="spinner__circular" viewBox="25 25 50 50">
+                        <circle class="spinner__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                    </svg>
                 </div>
             </div>
-        </div>
+            <div class="form__content">
+                <h1>我是一个小码农</h1>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <div class="styled-input">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "styled-input__input" } })
+
+
+                    <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Email</span> </div>
+                    <div class="styled-input__circle"></div>
+                </div>
+                <div class="styled-input">
+
+                    @Html.EditorFor(model => model.LoginPwd, new { htmlAttributes = new { @class = "styled-input__input" } })
+                    <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Password</span> </div>
+                    <div class="styled-input__circle"></div>
+                </div>
+                <div class="styled-input ">
+                    <div style="float:left">
+                        <label style="color:azure">
+                            @Html.EditorFor(model => model.RememberMe)记住我
+                        </label>
+                    </div>
+                    <div style="float:right;"><a href="#" style="color:aliceblue">忘记密码?</a></div>
+
+                </div>
+                <button type="submit" class="styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">登录</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">登录</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">登录</span> </span> </span> </span> </button>
+                <a  href="Register" class="btn styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">没有账号，立即注册</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">没有账号，立即注册</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">没有账号，立即注册</span> </span> </span> </span> </a>
             </div>
-        </div>
-    </div>
-}
+        </form>
+    }
+</main>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<script src="~/static/1/js/index.js"></script>
+<script src="~/static/js/jquery.min.js"></script>
+<script>
+  
+</script>

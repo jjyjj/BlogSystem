@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "ArticleList";
-    
+
 }
 
 <!DOCTYPE html>
@@ -23,7 +23,12 @@
     <link rel="stylesheet" href="~/static/css/font-awesome.css" />
     <link rel="stylesheet" href="~/static/css/font_family.css" />
     <link rel="stylesheet" href="~/static/css/styles.css">
-
+    <style>
+        .entry-content:hover {
+            box-shadow: 0 0 3px #000;
+            background-color: #F2F2F2
+        }
+    </style>
     <!--[if lt IE 9]> <script src="~/static/js/html5shiv.js"></script> <![endif]-->
 </head>
 
@@ -49,7 +54,7 @@
                                 <h3 id="logo" class="text-center">
                                     <img class="img-circle" src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
                                     <span class="title"></span>
-                                    <span class="tagline" style="color:black;font-size:25px">野蛮而生长，自由而向上</span>
+                                    <span class="tagline" style="color:black;font-size:25px">@ViewBag.User.Motto</span>
                                 </h3>
                             </div>
                         </div>
@@ -58,9 +63,9 @@
                         <img src="~/Image/Banners/2019071418.jpg" />
                         <div class="carousel-caption">
                             <h3 id="logo" class="text-center">
-                                <img class="img-circle"  src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
+                                <img class="img-circle" src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
                                 <span class="title"></span>
-                                <span class="tagline" style="color:black;font-size:25px">野蛮而生长，自由而向上</span>
+                                <span class="tagline" style="color:black;font-size:25px">@ViewBag.User.Motto</span>
                             </h3>
                         </div>
                     </div>
@@ -69,9 +74,9 @@
                         <img src="~/Image/Banners/2019102802.jpg" />
                         <div class="carousel-caption">
                             <h3 id="logo" class="text-center">
-                                <img class="img-circle"  src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
+                                <img class="img-circle" src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
                                 <span class="title"></span>
-                                <span class="tagline" style="color:black;font-size:25px">野蛮而生长，自由而向上</span>
+                                <span class="tagline" style="color:black;font-size:25px">@ViewBag.User.Motto</span>
                             </h3>
                         </div>
                     </div>
@@ -80,10 +85,10 @@
                         <img src="~/Image/Banners/2019071419.jpg" />
                         <div class="carousel-caption">
                             <h3 id="logo" class="text-center">
-                                <img class="img-circle"  src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
+                                <img class="img-circle" src="@ViewBag.User.ImagePath" alt="" style="margin-bottom:15px;height:150px;width:150px">   <br />
 
                                 <span class="title"></span>
-                                <span class="tagline" style="color:black;font-size:25px">野蛮而生长，自由而向上</span>
+                                <span class="tagline" style="color:black;font-size:25px">@ViewBag.User.Motto</span>
                             </h3>
                         </div>
                     </div>
@@ -119,7 +124,7 @@
 
                     <ul class="nav navbar-nav nav-tabs">
                         <li>
-                            <a href="#">主页</a>
+                            <a href="/Article/AllArticleList">主页</a>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -131,9 +136,12 @@
                                     @Html.ActionLink("发布新文章", "CreateArticle")
                                 </li>
                                 <li>
-                                    @Html.ActionLink("修改个人资料", "../Home/EditUserInfo")
+                                    @Html.ActionLink("修改个人资料", "../user/EditUserInfo")
                                 </li>
-
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="../User/PersonalArticleList">个人中心</a>
+                                </li>
                             </ul>
                         </li>
                         <li>
@@ -163,17 +171,21 @@
                     {
 
 
-                        <article class="post">
+                        <article class="post ">
                             <header class="entry-header">
                                 <h3 class="title"><a href="single.html" rel="bookmark">@Html.ActionLink("" + @Html.DisplayFor(modelItem => item.Title) + "", "ArticleDetails", new { id = item.Id })</a></h3>
                                 <div class="entry-meta">
                                     <span class="posted-on"><time class="entry-date published" date="2013-09-27">@Html.DisplayFor(modelItem => item.CreateTime)</time></span>
                                 </div>
                             </header>
-                            <div class="entry-content">
-                                <div>     @Html.Raw(item.Content)</div>
-                                <br />
-                                <div>      <span style="float:right" class="more-link">@Html.ActionLink("阅读更多", "ArticleDetails", new { id = item.Id })&#8230;</span></div>
+                            <div class="entry-content  ">
+                                <div class="big">
+                                    
+                                        @Html.Raw(item.Content)
+                                
+                                </div>
+                                
+                                  <span style="float:right" class="more-link">@Html.ActionLink("阅读更多", "ArticleDetails", new { id = item.Id })&#8230;</span>
 
                             </div>
                         </article>
@@ -216,8 +228,7 @@
                         <h4>最新评论</h4>
                         <ul>
                             <li><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">2</a></li>
+
 
                         </ul>
                     </div>
@@ -239,7 +250,11 @@
             </center>
         </div>
         <!-- /container -->
-
+        <br />
+        <br />
+        <br />
+        <br />
+        <br /> <br />
     </main>
 
 

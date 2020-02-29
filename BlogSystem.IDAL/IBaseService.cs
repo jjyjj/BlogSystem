@@ -13,7 +13,7 @@ namespace BlogSystem.IDAL
         Task RemoveAsync(T model, bool saved = true);
         Task Save();
         Task<T> GetOneByIdAsync(Guid id);
-        IQueryable<T> GetAllAsync();
+         IQueryable<T> GetAllAsync();
         IQueryable<T> GetAllByPageAsync(int pageSize = 10, int pageIndex = 0);
         IQueryable<T> GetAllOrderAsync(bool asc = true);
         IQueryable<T> GetAllByPageOrderAsync(int pageSize = 10, int pageIndex = 0, bool asc = true);

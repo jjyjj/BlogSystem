@@ -1,4 +1,4 @@
-﻿namespace BlogSystem.Models.Migrations
+namespace BlogSystem.Models.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -17,7 +17,9 @@
                         UserId = c.Guid(nullable: false),
                         GoodConut = c.Int(nullable: false),
                         BadCount = c.Int(nullable: false),
+                        BrowseCount = c.Int(nullable: false),
                         CreateTime = c.DateTime(nullable: false),
+                        State = c.Int(nullable: false),
                         IsRemoved = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -32,10 +34,13 @@
                         Email = c.String(nullable: false, maxLength: 40, unicode: false),
                         Password = c.String(nullable: false, maxLength: 300, unicode: false),
                         ImagePath = c.String(nullable: false, maxLength: 300, unicode: false),
+                        Motto = c.String(),
+                        type = c.Int(nullable: false),
                         FansCount = c.Int(nullable: false),
                         FocusCount = c.Int(nullable: false),
                         SiteName = c.String(),
                         CreateTime = c.DateTime(nullable: false),
+                        State = c.Int(nullable: false),
                         IsRemoved = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
@@ -48,6 +53,7 @@
                         BlogCategoryId = c.Guid(nullable: false),
                         ArticleId = c.Guid(nullable: false),
                         CreateTime = c.DateTime(nullable: false),
+                        State = c.Int(nullable: false),
                         IsRemoved = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -61,9 +67,10 @@
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        Category = c.String(),
+                        CategoryName = c.String(),
                         UserId = c.Guid(nullable: false),
                         CreateTime = c.DateTime(nullable: false),
+                        State = c.Int(nullable: false),
                         IsRemoved = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -79,6 +86,7 @@
                         Content = c.String(nullable: false, maxLength: 800),
                         ArticleId = c.Guid(nullable: false),
                         CreateTime = c.DateTime(nullable: false),
+                        State = c.Int(nullable: false),
                         IsRemoved = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -95,6 +103,7 @@
                         UserId = c.Guid(nullable: false),
                         FocusUserId = c.Guid(nullable: false),
                         CreateTime = c.DateTime(nullable: false),
+                        State = c.Int(nullable: false),
                         IsRemoved = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)

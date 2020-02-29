@@ -1,24 +1,23 @@
-﻿@using Webdiyer.WebControls.Mvc
-@model  Webdiyer.WebControls.Mvc.PagedList<BlogSystem.Dto.ArticleDto>
-
+﻿
+@using Webdiyer.WebControls.Mvc
+@model  Webdiyer.WebControls.Mvc.PagedList<BlogSystem.Dto.CommentDto>
 @{
-    ViewBag.Title = "PersonalArticleList";
-    Layout = "~/Views/Shared/layui-user.cshtml";
-    ViewBag.userImg = ViewBag.Users.ImagePath;
-    ViewBag.userName = ViewBag.Users.SiteName;
+    ViewBag.Title = "AllCommentList";
+    Layout = "~/Views/Shared/layui-admin.cshtml";
 }
+
+
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Layui</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href="~/static/layui/css/layui.css" rel="stylesheet" media="all" />
+    <link href="~/static/layui/css/layui.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
@@ -29,13 +28,13 @@
                 <div class="layui-form-item ">
                     <div class="layui-row">
                         <div class="layui-col-xs4">
-                            @Html.ActionLink("发布新文章", "../article/CreateArticle")
+                           
                         </div>
                         <div class="layui-col-xs4">
                             <div class="grid-demo">
                                 <div class="grid-demo grid-demo-bg1">
                                     <div class="input-group ">
-                                        <input type="text" class="form-control" placeholder="请选择博客类别或者输入相关内容">
+                                        <input type="text" class="form-control" placeholder="">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default
                         dropdown-toggle" data-toggle="dropdown">
@@ -73,7 +72,7 @@
                                     <tr data-field="id" data-key="1-0-0" class=" layui-unselect">
                                         <th>
                                             <div class="layui-table-cell laytable-cell-1-0-0">
-                                                <span>标题</span>
+                                                <span>评论人姓名</span>
                                                 <span class="layui-table-sort layui-inline">
                                                     <i class="layui-edge layui-table-sort-asc" title="升序"></i>
                                                     <i class="layui-edge layui-table-sort-desc" title="降序"></i>
@@ -82,7 +81,7 @@
                                         </th>
                                         <th>
                                             <div class="layui-table-cell laytable-cell-1-0-0">
-                                                <span>内容</span>
+                                                <span>评论内容</span>
                                                 <span class="layui-table-sort layui-inline">
                                                     <i class="layui-edge layui-table-sort-asc" title="升序"></i>
                                                     <i class="layui-edge layui-table-sort-desc" title="降序"></i>
@@ -91,7 +90,7 @@
                                         </th>
                                         <th>
                                             <div class="layui-table-cell laytable-cell-1-0-0">
-                                                <span>创建时间</span>
+                                                <span>评论博客标题</span>
                                                 <span class="layui-table-sort layui-inline">
                                                     <i class="layui-edge layui-table-sort-asc" title="升序"></i>
                                                     <i class="layui-edge layui-table-sort-desc" title="降序"></i>
@@ -100,22 +99,15 @@
                                         </th>
                                         <th>
                                             <div class="layui-table-cell laytable-cell-1-0-0">
-                                                <span>点赞数</span>
+                                                <span>评论时间</span>
                                                 <span class="layui-table-sort layui-inline">
                                                     <i class="layui-edge layui-table-sort-asc" title="升序"></i>
                                                     <i class="layui-edge layui-table-sort-desc" title="降序"></i>
                                                 </span>
                                             </div>
                                         </th>
-                                        <th>
-                                            <div class="layui-table-cell laytable-cell-1-0-0">
-                                                <span>差评数</span>
-                                                <span class="layui-table-sort layui-inline">
-                                                    <i class="layui-edge layui-table-sort-asc" title="升序"></i>
-                                                    <i class="layui-edge layui-table-sort-desc" title="降序"></i>
-                                                </span>
-                                            </div>
-                                        </th>
+                                        
+                                       
 
                                         <th>
                                             <div class="layui-table-cell laytable-cell-1-0-0">
@@ -123,15 +115,7 @@
 
                                             </div>
                                         </th>
-                                        <th>
-                                            <div class="layui-table-cell laytable-cell-1-0-0">
-                                                <span>浏览量</span>
-                                                <span class="layui-table-sort layui-inline">
-                                                    <i class="layui-edge layui-table-sort-asc" title="升序"></i>
-                                                    <i class="layui-edge layui-table-sort-desc" title="降序"></i>
-                                                </span>
-                                            </div>
-                                        </th>
+                                       
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -139,32 +123,23 @@
                                     {
                                         <tr data-index="0" class="">
                                             <td>
-                                                <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.Title)</div>
+                                                <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.User.SiteName)</div>
                                             </td>
                                             <td>
                                                 <div class="layui-table-cell" style="width:200px"> @Html.DisplayFor(modelItem => item.Content)</div>
                                             </td>
                                             <td>
-                                                <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.CreateTime)</div>
+                                                <div class="layui-table-cell"> 
+                                                    <a href="../article/articledetails/@item.ArticleId">@Html.DisplayFor(modelItem => item.ArticleTitles)</a>
+                                                </div>
                                             </td>
                                             <td>
-                                                <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.GoodConut)</div>
+                                                <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.CreateTime)</div>
                                             </td>
-                                            <td>
-                                                <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.BadCount)</div>
-                                            </td>
-                                            <td>
-                                                <a target="_blank" class="layui-btn layui-btn-xs" href="../Article/EditArticle/@item.Id">编辑</a>
-                                                |   <a target="_blank"  class="layui-btn layui-btn layui-btn-xs" href="../Article/ArticleDetails/@item.Id" style="background-color:dodgerblue">详情</a>
-                                                |
-                                                <a onclick="deleteArticle('@item.Id')" lay-event="del" class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
-
-
-                                              
-                                               
+                                           
+                                            <td style="text-align:center">
                                                 
-
-
+                                                <a class=""><i class="glyphicon glyphicon-remove"></i></a>
                                             </td>
                                         </tr>
                                     }
@@ -184,17 +159,12 @@
 
         </div>
     </div>
-    <div>
-    </div>
 
-
+    <script src="~/static/layui/layui.js"></script>
     <script src="~/static/js/jquery.min.js"></script>
     <script src="~/static/js/bootstrap.min.js"></script>
-    <script src="~/static/layui/layui.js"></script>
     <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-    
     <style>
-       
         .pagination {
             display: flex;
             flex-direction: row;
@@ -203,29 +173,28 @@
             padding: 3px;
         }
     </style>
-
-
-
     <script>
 
+        layui.use('table', function () {
+            var table = layui.table;
 
-        function deleteArticle(articleId) {
+            table.render({
+                elem: '#test'
+                , url: '/demo/table/user/'
+                , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    //,curr: 5 //设定初始在第 5 页
+                    , groups: 1 //只显示 1 个连续页码
+                    , first: false //不显示首页
+                    , last: false //不显示尾页
 
-            $.ajax({
-                url: "../Article/DeleteOneArtcileById",
-                type: "post",
-                data: {
-                    Id: articleId,
                 }
-            }).done(() => {
-                alert("删除成功");
-                location.reload();
+
+
             });
-
-
-        }
-
+        });
     </script>
+
 </body>
 </html>
 
