@@ -242,19 +242,14 @@
                 <!-- /Sidebar -->
 
             </div>
-            <center class="">
+            <center class=""  style="margin-top:80px">
 
                 <nav>
                     @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "pageIndex", ContainerTagName = "ul", CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"> <a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"> <a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>", Id = "bootstrappager" })
                 </nav>
             </center>
         </div>
-        <!-- /container -->
-        <br />
-        <br />
-        <br />
-        <br />
-        <br /> <br />
+      
     </main>
 
 

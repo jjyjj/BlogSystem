@@ -23,14 +23,20 @@ namespace BlogSystem.MVCSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateCategory(CreateCategoryViewModel model)
         {
-            if (ModelState.IsValid)
+            var type = Session["type"].ToString();
+            if (type=="1")
             {
-                IBLL.IBlogCategoryManager blogCategoryManager = new BlogCategoryManager();
-                blogCategoryManager.CreateCategory(model.CategoryName, Guid.Parse(Session["userid"].ToString()));
-                return RedirectToAction("CategoryList");
+                if (ModelState.IsValid)
+                {
+                    IBLL.IBlogCategoryManager blogCategoryManager = new BlogCategoryManager();
+                    blogCategoryManager.CreateCategory(model.CategoryName, Guid.Parse(Session["userid"].ToString()));
+                    return RedirectToAction("CategoryList");
+                }
+                ModelState.AddModelError("", "您录入的信息有误");
+                return View(model);
             }
-            ModelState.AddModelError("", "您录入的信息有误");
-            return View(model);
+            return RedirectToAction(nameof(AllArticleList));
+
         }
         [HttpGet]
         public async Task<ActionResult> CategoryList()
@@ -48,10 +54,11 @@ namespace BlogSystem.MVCSite.Controllers
         {
 
             var articleMgr = new ArticleManager();
-            var articles = await articleMgr.GetAllArticles(pageIndex - 1, pageSize);
+            var articles = await articleMgr.GetAllArticles(true,pageIndex - 1, pageSize);
             var dataCount = await articleMgr.GetDataCount();
             foreach (var item in articles)
             {
+                item.State = (await articleMgr.ExistsArticle(item.Id) == true) ? "未下架" : "已下架";
                 item.TotalComments = await articleMgr.GetCommentsForArticleCountByArticleId(item.Id);
             }
 
@@ -93,19 +100,7 @@ namespace BlogSystem.MVCSite.Controllers
             return View(new PagedList<Dto.CommentDto>(commetns, pageIndex, pageSize, dataCount));
 
         }
-        [HttpPost]
-        public async Task<ActionResult> DeleteOneCategoryById(Guid id)
-        {
-            IBLL.IArticleManager articleManager = new ArticleManager();
-            if (await articleManager.ExistsArticle(id))
-            {
-                await articleManager.RemoveArticle(id);
-                return Json(new { result = "ok" });
-            }
-
-            return Json(new { result = "没有该数据" });
-
-        }
+       
 
     }
 }

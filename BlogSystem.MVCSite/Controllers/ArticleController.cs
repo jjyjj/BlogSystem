@@ -8,7 +8,7 @@ using Webdiyer.WebControls.Mvc;
 
 namespace BlogSystem.MVCSite.Controllers
 {
-  
+
     public class ArticleController : Controller
     {
 
@@ -43,7 +43,7 @@ namespace BlogSystem.MVCSite.Controllers
             return View(await new BlogCategoryManager().GetAllCategories());
         }
         [HttpGet]
-       
+
         public async Task<ActionResult> CreateArticle()
         {
             var userid = Guid.Parse(Session["userid"].ToString());
@@ -54,6 +54,8 @@ namespace BlogSystem.MVCSite.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> CreateArticle(CreateArticleViewModel model)
         {
+
+
             if (ModelState.IsValid)
             {
                 var userid = Guid.Parse(Session["userid"].ToString());
@@ -63,8 +65,8 @@ namespace BlogSystem.MVCSite.Controllers
             ModelState.AddModelError("", "添加失败");
             return View();
         }
-  
-      
+
+
         //获取当前用户的所有文章
         [HttpGet]
         [BlogSystemAuthAttribute]
@@ -78,25 +80,26 @@ namespace BlogSystem.MVCSite.Controllers
             var artciles = await new ArticleManager().GetAllArticlesByUserId(userid, pageIndex - 1, pageSize);
             //获取总共多少条
             var dataCount = await articleMgr.GetDataCount(userid);
-            ViewBag.User= await new UserManager().GetOneUserById(userid);
+            ViewBag.User = await new UserManager().GetOneUserById(userid);
 
             return View(new PagedList<Dto.ArticleDto>(artciles, pageIndex, pageSize, dataCount));
         }
 
-     
+
         //获取所有文章
         [HttpGet]
         public async Task<ActionResult> AllArticleList(int pageIndex = 1, int pageSize = 6)
         {
-            
-              var articleMgr = new ArticleManager();
-            var articles = await articleMgr.GetAllArticles(pageIndex - 1, pageSize);
+
+            var articleMgr = new ArticleManager();
+            var articles = await articleMgr.GetAllArticles(false, pageIndex - 1, pageSize);
             var dataCount = await articleMgr.GetDataCount();
             foreach (var item in articles)
             {
+              
                 item.TotalComments = await articleMgr.GetCommentsForArticleCountByArticleId(item.Id);
             }
-        
+
             return View(new PagedList<Dto.ArticleDto>(articles, pageIndex, pageSize, dataCount));
 
         }
@@ -104,7 +107,7 @@ namespace BlogSystem.MVCSite.Controllers
         //查看文章详情
         public async Task<ActionResult> ArticleDetails(Guid? id)
         {
-            
+
             var articleMgr = new ArticleManager();
 
             if (!await new ArticleManager().ExistsArticle(id.Value) || id == null)
@@ -112,27 +115,33 @@ namespace BlogSystem.MVCSite.Controllers
                 return RedirectToAction(nameof(AllArticleList));
 
             ViewBag.Comments = await articleMgr.GetCommentsByArticleId(id.Value);
-          
+
 
             return View(await articleMgr.GetOneArticleById(id.Value));
 
         }
         //编辑
         [HttpGet]
-        public async Task<ActionResult> EditArticle(Guid id)
+        public async Task<ActionResult> EditArticle(Guid? id)
         {
+            if (!await new ArticleManager().ExistsArticle(id.Value) || id == null)
 
-            IBLL.IArticleManager articleManager = new ArticleManager();
-            var data = await articleManager.GetOneArticleById(id);
-            var userid = Guid.Parse(Session["userid"].ToString());
-            ViewBag.CategoryIds = await new BlogCategoryManager().GetAllCategories();
-            return View(new EditArtcileViewModel()
+                return RedirectToAction(nameof(AllArticleList));
+
+            else
             {
-                Title = data.Title,
-                Content = data.Content,
-                CategoryIds = data.CategoryIds,
-                Id = data.Id
-            });
+                IBLL.IArticleManager articleManager = new ArticleManager();
+                var data = await articleManager.GetOneArticleById(id.Value);
+                var userid = Guid.Parse(Session["userid"].ToString());
+                ViewBag.CategoryIds = await new BlogCategoryManager().GetAllCategories();
+                return View(new EditArtcileViewModel()
+                {
+                    Title = data.Title,
+                    Content = data.Content,
+                    CategoryIds = data.CategoryIds,
+                    Id = data.Id
+                });
+            }
         }
         //编辑文章
         [HttpPost]
@@ -146,7 +155,7 @@ namespace BlogSystem.MVCSite.Controllers
             }
             else
             {
-              
+
                 ViewBag.CategoryIds = await new BlogCategoryManager().GetAllCategories();
                 return View(model);
             }
@@ -168,6 +177,13 @@ namespace BlogSystem.MVCSite.Controllers
             await articleManager.BadCountAdd(id);
             return Json(new { result = "ok" });
         }
+        [HttpPost]
+        public async Task<ActionResult> BrowseCount(Guid id)
+        {
+            IBLL.IArticleManager articleManager = new ArticleManager();
+            await articleManager.BrowseCountAdd(id);
+            return Json(new { result = "ok" });
+        }
         //添加评论
         [HttpPost]
         public async Task<ActionResult> AddComment(CreateCommentViewModel model)
@@ -179,16 +195,23 @@ namespace BlogSystem.MVCSite.Controllers
         }
         //删除文章
         [HttpPost]
-        public async Task<ActionResult> DeleteOneArtcileById(Guid id)
+        public async Task<ActionResult> DeleteOneArtcileById(Guid? id, bool isConfirm)
         {
-            IBLL.IArticleManager articleManager = new ArticleManager();
-            if (await articleManager.ExistsArticle(id))
-            {
-                await articleManager.RemoveArticle(id);
-                return Json(new { result = "ok" });
-            }
-               
-           return Json(new { result = "error" });
+          
+                IBLL.IArticleManager articleManager = new ArticleManager();
+
+                await articleManager.RemoveArticle(id.Value, isConfirm);
+                if (isConfirm)
+                {
+                    return Json(new { result = "删除成功" });
+
+                }
+                else
+                {
+                    return Json(new { result = "下架成功" });
+                }
+          
+
 
         }
 

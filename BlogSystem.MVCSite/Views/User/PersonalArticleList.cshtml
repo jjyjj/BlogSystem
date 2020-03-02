@@ -116,13 +116,6 @@
                                                 </span>
                                             </div>
                                         </th>
-
-                                        <th>
-                                            <div class="layui-table-cell laytable-cell-1-0-0">
-                                                <span>操作</span>
-
-                                            </div>
-                                        </th>
                                         <th>
                                             <div class="layui-table-cell laytable-cell-1-0-0">
                                                 <span>浏览量</span>
@@ -132,41 +125,47 @@
                                                 </span>
                                             </div>
                                         </th>
+                                        <th>
+                                            <div class="layui-table-cell laytable-cell-1-0-0">
+                                                <span>操作</span>
+
+                                            </div>
+                                        </th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr data-index="0" class="">
-                                            <td>
-                                                <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.Title)</div>
-                                            </td>
-                                            <td>
-                                                <div class="layui-table-cell" style="width:200px"> @Html.DisplayFor(modelItem => item.Content)</div>
-                                            </td>
-                                            <td>
-                                                <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.CreateTime)</div>
-                                            </td>
-                                            <td>
-                                                <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.GoodConut)</div>
-                                            </td>
-                                            <td>
-                                                <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.BadCount)</div>
-                                            </td>
-                                            <td>
-                                                <a target="_blank" class="layui-btn layui-btn-xs" href="../Article/EditArticle/@item.Id">编辑</a>
-                                                |   <a target="_blank"  class="layui-btn layui-btn layui-btn-xs" href="../Article/ArticleDetails/@item.Id" style="background-color:dodgerblue">详情</a>
-                                                |
-                                                <a onclick="deleteArticle('@item.Id')" lay-event="del" class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
+                                    <tr data-index="0" class="">
+                                        <td>
+                                            <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.Title)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell" style="width:200px"> @Html.DisplayFor(modelItem => item.Content)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.CreateTime)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.GoodConut)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.BadCount)</div>
+                                        </td>
+                                        <td>
+                                            <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.BrowseCount)</div>
+                                        </td>
+                                        <td>
+                                            <a target="_blank" class="layui-btn layui-btn-xs" href="../Article/EditArticle/@item.Id">编辑</a>
+                                            |   <a target="_blank" class="layui-btn layui-btn layui-btn-xs" href="../Article/ArticleDetails/@item.Id" style="background-color:dodgerblue">详情</a>
+                                            |
+                                            <a onclick="deleteArticle('@item.Id')" lay-event="del" class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
 
 
-                                              
-                                               
-                                                
+                                        </td>
 
-
-                                            </td>
-                                        </tr>
+                                    </tr>
                                     }
                                 </tbody>
 
@@ -192,9 +191,9 @@
     <script src="~/static/js/bootstrap.min.js"></script>
     <script src="~/static/layui/layui.js"></script>
     <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-    
+
     <style>
-       
+
         .pagination {
             display: flex;
             flex-direction: row;
@@ -216,6 +215,7 @@
                 type: "post",
                 data: {
                     Id: articleId,
+                    isConfirm: true
                 }
             }).done(() => {
                 alert("删除成功");

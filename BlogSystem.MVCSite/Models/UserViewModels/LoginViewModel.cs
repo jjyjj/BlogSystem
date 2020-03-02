@@ -19,5 +19,6 @@ namespace BlogSystem.MVCSite.Models.UserViewModels
         public string LoginPwd { get; set; }
         [Display(Name = "记住我")]
         public bool RememberMe { get; set; }
+        public int type { get; set; }
     }
 }

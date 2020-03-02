@@ -46,7 +46,7 @@ namespace BlogSystem.BLL
         {
             using (IDAL.IBlogCategory categoryService = new BlogCategoryService())
             {
-                return await categoryService.GetAllAsync().Select(m => new BlogCategoryDto()
+                return await categoryService.GetAllAsync(false).Select(m => new BlogCategoryDto()
                 {
                     Id = m.Id,
                     CategoryName = m.CategoryName,

@@ -17,7 +17,8 @@ namespace BlogSystem.IBLL
 
      
         //删除文章
-        Task RemoveArticle(Guid articleId);
+        Task RemoveArticle(Guid articleId,bool isConfirm);
+       
         Task EditArticle(Guid articleId, string title, string content, Guid[] categoryIds);
         //判断文章是否存在
         Task<bool> ExistsArticle(Guid articleId);
@@ -29,6 +30,7 @@ namespace BlogSystem.IBLL
         Task GoodCountAdd(Guid articleId);
         //反对
         Task BadCountAdd(Guid articleId);
+        Task BrowseCountAdd(Guid articleId);
         //评论
         Task CreateComment(Guid userId, Guid articleId, string content);
         //查看评论

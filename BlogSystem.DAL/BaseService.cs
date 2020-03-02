@@ -55,31 +55,44 @@ namespace BlogSystem.DAL
         /// 返回所有未被删除数据（没有真的执行）
         /// </summary>
         /// <returns></returns>
-        public IQueryable<T> GetAllAsync()
+        public IQueryable<T> GetAllAsync(bool all)
         {
-            return _db.Set<T>().Where(m => !m.IsRemoved).AsNoTracking();
+            if (all)
+            {
+                return _db.Set<T>().AsNoTracking();
+            }
+            else
+            {
+                return _db.Set<T>().Where(m => !m.IsRemoved).AsNoTracking();
+            }
+           
         }
-        public async Task<T> GetOneByIdAsync(Guid id)
+        public IQueryable<T> GetAllsAsync()
         {
-            return await GetAllAsync().FirstAsync(m => m.Id == id);
+
+            return _db.Set<T>().AsNoTracking();
+        }
+        public async Task<T> GetOneByIdAsync(bool all,Guid id)
+        {
+            return await GetAllAsync( all).FirstAsync(m => m.Id == id);
         }
 
-        public IQueryable<T> GetAllByPageAsync(int pageSize = 10, int pageIndex = 0)
+        public IQueryable<T> GetAllByPageAsync(bool all,int pageSize = 10, int pageIndex = 0)
         {
-            return GetAllAsync().Skip(pageSize * pageIndex).Take(pageSize);
+            return GetAllAsync(all).Skip(pageSize * pageIndex).Take(pageSize);
         }
 
 
-        public IQueryable<T> GetAllOrderAsync(bool asc = true)
+        public IQueryable<T> GetAllOrderAsync(bool all,bool asc = true)
         {
-            var datas = GetAllAsync();
+            var datas = GetAllAsync(all);
             
             datas = asc ? datas.OrderBy(m => m.CreateTime) : datas.OrderByDescending(m => m.CreateTime);
             return datas;
         }
-        public IQueryable<T> GetAllByPageOrderAsync(int pageSize = 10, int pageIndex = 0, bool asc = true)
+        public IQueryable<T> GetAllByPageOrderAsync(bool all,int pageSize = 10, int pageIndex = 0, bool asc = true)
         {
-            return GetAllOrderAsync(asc).Skip(pageSize * pageIndex).Take(pageSize);
+            return GetAllOrderAsync(all,asc).Skip(pageSize * pageIndex).Take(pageSize);
         }
                      
         public async Task Save()

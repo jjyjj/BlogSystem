@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlogSystem.Dto
 {
-public    class ArticleDto
+    public class ArticleDto
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-       
+
         public string Content { get; set; }
 
         public DateTime CreateTime { get; set; }
@@ -27,7 +23,9 @@ public    class ArticleDto
         public int TotalComments { get; set; }
         //文章图片
         public string ArticleImgUrls { get; set; }
-  public string Name { get; set; }
+        public string Name { get; set; }
+        public string State { get; set; }
+        public int BrowseCount { get; set; }
 
     }
 }

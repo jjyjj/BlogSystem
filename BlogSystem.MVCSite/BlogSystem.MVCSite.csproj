@@ -158,6 +158,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Image\2019102806.jpg" />
+    <Content Include="Image\4.gif" />
     <Content Include="Image\Banners\2019071418.jpg" />
     <Content Include="Image\Banners\2019071419.jpg" />
     <Content Include="Image\Banners\2019102802.jpg" />
@@ -167,6 +168,7 @@
     <Content Include="Scripts\bootstrap-wysiwyg.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\external\google-code-prettify\lang-apollo.js" />
     <Content Include="Scripts\external\google-code-prettify\lang-basic.js" />

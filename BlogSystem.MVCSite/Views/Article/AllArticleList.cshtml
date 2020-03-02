@@ -42,12 +42,12 @@
                         <li>
                             <a href="/Article/AllArticleList">主页</a>
                         </li>
-                        <li  >
-                            <a class="" href="/Article/ArticleList2" >
+                        <li>
+                            <a class="" href="/Article/ArticleList2">
                                 我的
-                                
+
                             </a>
-                            
+
                         </li>
                         <li>
                             <a href="#">博客墙</a>
@@ -80,19 +80,17 @@
 
                                 <div class="blog-entry">
                                     <div class="blog-img">
-                                        <a href="/Article/ArticleDetails/@item.Id"> <img src="@item.ArticleImgUrls" class="img-responsive" alt="ss"></a>
+                                        <a href="/Article/ArticleDetails/@item.Id"> <img onclick="BrowseCountAdd('@item.Id')" src="@item.ArticleImgUrls" class="img-responsive" alt="ss"></a>
                                     </div>
                                     <div class="desc" style="height:200px">
 
                                         <div class="meta">
-                                            <span class="cat"><i class="glyphicon glyphicon-eye-open"></i>:&nbsp;</span>
+                                            <span class="cat"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;:<span id="BrowseCount">@item.BrowseCount</span></span>
                                             <span class="date"> <i class="glyphicon glyphicon-time"></i>:&nbsp;@item.TimeInterval</span>
                                             <span class="pos"><i class="glyphicon glyphicon-comment"></i>&nbsp;&nbsp;@item.TotalComments</span>
                                         </div>
                                         <div class="meta">
-                                            <span class="cat"><i class=""></i>&nbsp;&nbsp;<a href="#">@Html.ActionLink("" + @Html.DisplayFor(modelItem => item.Title) + "", "ArticleDetails", new { id = item.Id })</a></span>
-
-
+                                            <span class="cat"><i class=""></i>&nbsp;&nbsp;<span onclick="BrowseCountAdd('@item.Id')">@Html.ActionLink("" + @Html.DisplayFor(modelItem => item.Title) + "", "ArticleDetails", new { id = item.Id })</span></span>
 
                                         </div>
                                         <div class="fontPage-size">@item.Content</div>
@@ -111,7 +109,7 @@
 
 
                     <!-- 页码栏   start -->
-                    <div class="row">
+                    <div class="row" style="margin-top:80px">
                         <div class="col-md-12 text-center">
 
                             <center class="">
@@ -123,11 +121,15 @@
                         </div>
                     </div>
                     <!-- 页码栏   end -->
+
+
                 </div>
             </div>
         </div>
-    </main>
+        <!-- /container -->
 
+    </main>
+   
     <script src="~/static/js/jq.js"></script>
 
     <script src="~/static/js/boot.js"></script>
@@ -144,7 +146,18 @@
             padding: 3px;
         }
     </style>
+    <script>
 
+        function BrowseCountAdd(articleId) {
+            $.ajax({
+                url: "/Article/BrowseCount",
+                type: "post",
+                data: {
+                    Id: articleId,
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

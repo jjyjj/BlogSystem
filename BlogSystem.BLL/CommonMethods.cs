@@ -61,7 +61,7 @@ namespace BlogSystem.BLL
             if (matches.Count==0)
             {
                 sUrlList = new string[1];
-                sUrlList[0] = "0.png";
+                sUrlList[0] = "../Image/2019102806.jpg";
             }
             // 取得匹配项列表   
             foreach (Match match in matches)

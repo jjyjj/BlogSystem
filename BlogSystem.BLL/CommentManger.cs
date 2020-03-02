@@ -27,8 +27,9 @@ namespace BlogSystem.BLL
         {
             using (var commentService = new CommentService())
             {
+                
                 var list = await commentService
-                    .GetAllByPageOrderAsync(pageSize, pageIndex, false)
+                    .GetAllByPageOrderAsync(false,pageSize, pageIndex, false)
                     .Select(m => new CommentDto()
                     {
                         Id=m.Id,
@@ -43,7 +44,7 @@ namespace BlogSystem.BLL
                     foreach (var commentDto in list)
                     {
                         var cates = await articleService
-                            .GetAllAsync()
+                            .GetAllAsync(false)
                             .Where(m => m.Id == commentDto.ArticleId)
                             .ToListAsync();
 
@@ -58,7 +59,7 @@ namespace BlogSystem.BLL
         {
             using (IDAL.ICommentService  commentService = new CommentService())
             {
-                return await commentService.GetAllAsync().CountAsync();
+                return await commentService.GetAllAsync(false).CountAsync();
             }
         }
     }

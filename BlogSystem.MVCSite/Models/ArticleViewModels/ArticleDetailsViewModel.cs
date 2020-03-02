@@ -17,5 +17,6 @@ namespace BlogSystem.MVCSite.Models.ArticleViewModels
         public string[] CategoryNames { get; set; }
         public int GoodCount { get; set; }
         public int BadCount { get; set; }
+        public int BrowseCount { get; set; }
     }
 }

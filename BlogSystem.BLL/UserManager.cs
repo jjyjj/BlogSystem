@@ -35,7 +35,7 @@ namespace BlogSystem.BLL
         {
             using (IDAL.IUserService userSvc = new DAL.UserService())
             {
-                var user = userSvc.GetAllAsync().FirstOrDefaultAsync(m => m.Email == email && m.Password == password);
+                var user = userSvc.GetAllAsync(false).FirstOrDefaultAsync(m => m.Email == email && m.Password == password);
                 user.Wait();
                 var data = user.Result;
                 if (data == null)
@@ -56,9 +56,9 @@ namespace BlogSystem.BLL
         {
             using (IDAL.IUserService userSvc = new DAL.UserService())
             {
-                if (await userSvc.GetAllAsync().AnyAsync(m => m.Email == email && m.Password == oldPwd))
+                if (await userSvc.GetAllAsync(false).AnyAsync(m => m.Email == email && m.Password == oldPwd))
                 {
-                    var user = await userSvc.GetAllAsync().FirstAsync(m => m.Email == email);
+                    var user = await userSvc.GetAllAsync(false).FirstAsync(m => m.Email == email);
                     user.Password = newPwd;
                     await userSvc.EditAsync(user);
                 }
@@ -70,7 +70,7 @@ namespace BlogSystem.BLL
             using (IDAL.IUserService userSvc = new DAL.UserService())
             {
 
-                var user = await userSvc.GetAllAsync().FirstAsync(m => m.Id == id);
+                var user = await userSvc.GetAllAsync(false).FirstAsync(m => m.Id == id);
                 user.SiteName = siteName;
                 user.ImagePath = imagePath;
                 user.Password = passWord;
@@ -84,9 +84,9 @@ namespace BlogSystem.BLL
         {
             using (IDAL.IUserService userSvc = new DAL.UserService())
             {
-                if (await userSvc.GetAllAsync().AnyAsync(m => m.Email == email))
+                if (await userSvc.GetAllAsync(false).AnyAsync(m => m.Email == email))
                 {
-                    return await userSvc.GetAllAsync().Where(m => m.Email == email).Select(m =>
+                    return await userSvc.GetAllAsync(false).Where(m => m.Email == email).Select(m =>
                         new Dto.UserInformationDto()
                         {
                             Id = m.Id,
@@ -108,7 +108,7 @@ namespace BlogSystem.BLL
         {
             using (IDAL.IUserService userService = new UserService())
             {
-                return await userService.GetAllAsync()
+                return await userService.GetAllAsync(false)
                     .Where(m => m.Id == userId)
                     .Select(m => new Dto.UserInformationDto()
                     {
@@ -128,7 +128,7 @@ namespace BlogSystem.BLL
         {
             using (IDAL.IUserService userService = new UserService())
             {
-                return await userService.GetAllAsync().CountAsync();
+                return await userService.GetAllAsync(false).CountAsync();
             }
         }
         public async Task<List<UserInformationDto>> GetAllUsers(int pageIndex, int pageSize)
@@ -136,7 +136,7 @@ namespace BlogSystem.BLL
             using (var userService = new UserService())
             {
                 var list = await userService
-                    .GetAllByPageOrderAsync(pageSize, pageIndex, false)
+                    .GetAllByPageOrderAsync(false, pageSize, pageIndex, false)
 
                     .Select(m => new UserInformationDto()
                     {
@@ -153,5 +153,14 @@ namespace BlogSystem.BLL
                 return list;
             }
         }
+        public async Task<bool> ExistsUser(Guid Id)
+        {
+            using (IDAL.IUserService  userService= new UserService())
+            {
+                return await userService.GetAllAsync(false).AnyAsync(m => m.Id == Id);
+            }
+
+        }
+
     }
 }

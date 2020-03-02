@@ -66,10 +66,16 @@ namespace BlogSystem.MVCSite.Controllers
                             Value = userid.ToString(),
                             Expires = DateTime.Now.AddDays(7)
                         });
+                        Response.Cookies.Add(new HttpCookie("type")
+                        {
+                            Value = model.type.ToString(),
+                            Expires = DateTime.Now.AddDays(7)
+                        });
                     }
                     else
                     {
                         Session["loginName"] = model.Email;
+                        Session["type"] = model.type;
                         Session["userid"] = userid;
                     }
 

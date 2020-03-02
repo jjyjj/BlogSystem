@@ -17,7 +17,10 @@ namespace BlogSystem.MVCSite.Filters
                 filterContext.HttpContext.Session["loginName"] == null)
             {
                 filterContext.HttpContext.Session["loginName"] = filterContext.HttpContext.Request.Cookies["loginName"].Value;
+
                 filterContext.HttpContext.Session["userid"] = filterContext.HttpContext.Request.Cookies["userid"].Value;
+
+                filterContext.HttpContext.Session["type"] = filterContext.HttpContext.Request.Cookies["type"].Value;
             }
 
 
