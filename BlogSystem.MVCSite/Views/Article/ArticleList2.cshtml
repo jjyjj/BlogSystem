@@ -180,12 +180,12 @@
                             </header>
                             <div class="entry-content  ">
                                 <div class="big">
-                                    
-                                        @Html.Raw(item.Content)
-                                
+
+                                    @Html.Raw(item.Content)
+
                                 </div>
-                                
-                                  <span style="float:right" class="more-link">@Html.ActionLink("阅读更多", "ArticleDetails", new { id = item.Id })&#8230;</span>
+
+                                <span style="float:right" class="more-link">@Html.ActionLink("阅读更多", "ArticleDetails", new { id = item.Id })&#8230;</span>
 
                             </div>
                         </article>
@@ -199,7 +199,7 @@
                 <aside class="col-md-4 sidebar sidebar-left">
 
                     <div class="widget">
-                        <h4>分类</h4>
+                        <h4>我的分类</h4>
                         <ul>
                             @foreach (var item in Model)
                             {
@@ -212,11 +212,11 @@
 
 
                     <div class="widget">
-                        <h4>当日最热</h4>
+                        <h4>人气博客</h4>
                         <ul>
-                            @foreach (var item in Model)
+                            @foreach (var item in ViewBag.HotArticles)
                             {
-                                <li><a href="">@Html.DisplayFor(modelItem => item.Title)</a> </li>
+                                <li><a href="../Article/ArticleDetails/@item.Id">@item.Title</a> </li>
 
 
                             }
@@ -225,9 +225,16 @@
                     </div>
 
                     <div class="widget">
-                        <h4>最新评论</h4>
-                        <ul>
-                            <li><a href="">1</a></li>
+                        <h4>最新评论文章</h4>
+                        <ul id="sss">
+                         
+
+                            @foreach (var item in ViewBag.Articles)
+                            {
+                                <li><a href="../Article/ArticleDetails/@item.Id">@item.Title</a> </li>
+
+
+                            }
 
 
                         </ul>
@@ -242,14 +249,14 @@
                 <!-- /Sidebar -->
 
             </div>
-            <center class=""  style="margin-top:80px">
+            <center class="" style="margin-top:80px">
 
                 <nav>
                     @Html.Pager(Model, new PagerOptions { PageIndexParameterName = "pageIndex", ContainerTagName = "ul", CssClass = "pagination", CurrentPagerItemTemplate = "<li class=\"active\"> <a href=\"#\">{0}</a></li>", DisabledPagerItemTemplate = "<li class=\"disabled\"> <a>{0}</a></li>", PagerItemTemplate = "<li>{0}</li>", Id = "bootstrappager" })
                 </nav>
             </center>
         </div>
-      
+
     </main>
 
 
@@ -262,6 +269,7 @@
     <script type="text/javascript" src="~/static/js/bootstrap.min.js"></script>
     <script src="~/static/js/template.js"></script>
     <script>
+      
 
         function btnDelete(btn) {
             if (confirm("您确定要删除吗？")) {

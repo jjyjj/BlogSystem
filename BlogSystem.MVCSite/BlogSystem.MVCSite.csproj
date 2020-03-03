@@ -246,6 +246,7 @@
     <Content Include="static\js\jquery.magnific-popup.min.js" />
     <Content Include="static\js\jquery.min.js" />
     <Content Include="static\js\jquery.waypoints.min.js" />
+    <Content Include="static\js\LiftEffect.js" />
     <Content Include="static\js\magnific-popup-options.js" />
     <Content Include="static\js\main.js" />
     <Content Include="static\js\modernizr-2.6.2.min.js" />
@@ -357,6 +358,9 @@
     <Content Include="static\layui\lay\modules\tree.js" />
     <Content Include="static\layui\lay\modules\upload.js" />
     <Content Include="static\layui\lay\modules\util.js" />
+    <Content Include="static\roll.js" />
+    <Content Include="static\share\jquery.share.min.js" />
+    <Content Include="static\share\share.min.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -436,6 +440,10 @@
     <ProjectReference Include="..\BlogSystem.IBLL\BlogSystem.IBLL.csproj">
       <Project>{7b084fbd-2a17-433e-ba57-1a526bf22d19}</Project>
       <Name>BlogSystem.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlogSystem.Models\BlogSystem.Models.csproj">
+      <Project>{2F470A8B-7B46-4974-9A32-63C8DD1FA48C}</Project>
+      <Name>BlogSystem.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

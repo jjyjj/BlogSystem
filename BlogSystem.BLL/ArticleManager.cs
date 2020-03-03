@@ -59,7 +59,7 @@ namespace BlogSystem.BLL
         {
             using (IDAL.IArticleService articleService = new ArticleService())
             {
-                var article = await articleService.GetOneByIdAsync(false,articleId);
+                var article = await articleService.GetOneByIdAsync(false, articleId);
                 article.Title = title;
                 article.Content = content;
                 await articleService.EditAsync(article);
@@ -128,7 +128,7 @@ namespace BlogSystem.BLL
             using (var articleService = new ArticleService())
             {
                 var list = await articleService
-                    .GetAllByPageOrderAsync(false,pageSize, pageIndex, false)
+                    .GetAllByPageOrderAsync(false, pageSize, pageIndex, false)
 
                     .Include(m => m.User)
                     .Where(m => m.UserId == userId)
@@ -142,7 +142,7 @@ namespace BlogSystem.BLL
                         BadCount = m.BadCount,
                         Id = m.Id,
                         ImagePath = m.User.ImagePath,
-                        BrowseCount=m.BrowseCount
+                        BrowseCount = m.BrowseCount
 
                     }).ToListAsync();
                 foreach (var item in list)
@@ -153,7 +153,10 @@ namespace BlogSystem.BLL
                 {
                     foreach (var articleDto in list)
                     {
-                        var cates = await articleToCategoryService.GetAllAsync(false).Include(m => m.BlogCategory).Where(m => m.ArticleId == articleDto.Id).ToListAsync();
+                        var cates = await articleToCategoryService
+                            .GetAllAsync(false).Include(m => m.BlogCategory)
+                            .Where(m => m.ArticleId == articleDto.Id)
+                            .ToListAsync();
                         articleDto.CategoryIds = cates.Select(m => m.BlogCategoryId).ToArray();
                         articleDto.CategoryNames = cates.Select(m => m.BlogCategory.CategoryName).ToArray();
                     }
@@ -174,7 +177,7 @@ namespace BlogSystem.BLL
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<List<ArticleDto>> GetAllArticles(bool all,int pageIndex, int pageSize)
+        public async Task<List<ArticleDto>> GetAllArticles(bool all, int pageIndex, int pageSize)
         {
             using (var articleService = new ArticleService())
             {
@@ -194,13 +197,13 @@ namespace BlogSystem.BLL
                         ImagePath = m.User.ImagePath,
                         TimeInterval = "null",
                         ArticleImgUrls = "null",
-                        BrowseCount=m.BrowseCount
+                        BrowseCount = m.BrowseCount
                     }).ToListAsync();
 
                 foreach (var item in list)
                 {
                     string[] ss = CommonMethods.GetHtmlImageUrlList(item.Content);
-                   
+
                     item.ArticleImgUrls = ss[0];
                     item.Content = CommonMethods.SplitString(item.Content, 45, "...");
                     item.TimeInterval = CommonMethods.ComputeTime(item.CreateTime);
@@ -290,7 +293,7 @@ namespace BlogSystem.BLL
                         GoodConut = m.GoodConut,
                         ImagePath = m.User.ImagePath,
                         Name = m.User.SiteName,
-                        BrowseCount=m.BrowseCount
+                        BrowseCount = m.BrowseCount
 
                     }).FirstAsync();//取出该条数据
                 using (IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService())
@@ -387,7 +390,7 @@ namespace BlogSystem.BLL
                          UserId = m.UserId,
                          Email = m.User.Email,
                          Name = m.User.SiteName
-                         
+
                      }).ToListAsync();
             }
         }
@@ -426,7 +429,21 @@ namespace BlogSystem.BLL
                 }
             }
         }
+        public async Task RemoveComment(Guid commentId)
+        {
+            BlogContext blogContext = new BlogContext();
+            using (IDAL.ICommentService commentService = new CommentService())
+            {
 
+                blogContext.Entry(new Models.Comment { Id = commentId }).State = EntityState.Deleted;
+                await commentService.Save();
+
+                await blogContext.SaveChangesAsync();
+
+
+
+            }
+        }
         public async Task BrowseCountAdd(Guid articleId)
         {
             using (IDAL.IArticleService articleService = new ArticleService())
@@ -437,8 +454,91 @@ namespace BlogSystem.BLL
 
             }
         }
-        #endregion
+        /// <summary>
+        /// 获取到当前用户文章中浏览最高的
+        /// </summary>
+        /// <param name="usersId"></param>
+        /// <returns></returns>
+        public async Task<List<Dto.ArticleDto>> GetHotArticleByUsersId(Guid usersId)
+        {
 
 
+            using (IDAL.IArticleService articleService = new ArticleService())
+            {
+                var list = await articleService.GetAllAsync(false)
+                    .Include(m => m.User)
+                     .Where(m => m.UserId == usersId)
+                   .OrderByDescending(m => m.BrowseCount)
+                    .Take(3)
+
+                    .Select(m => new Dto.ArticleDto()
+                    {
+                        Id = m.Id,
+                        Title = m.Title,
+
+                    }).ToListAsync();
+                return list;
+            }
+        }
+        /// <summary>
+        /// 获取到最新被评论的博客
+        /// </summary>
+        /// <param name="usersId"></param>
+        /// <returns></returns>
+        public async Task<List<Article>> GetNewArticleForCommentByUserId(Guid usersId)
+        {
+
+
+
+            using (IDAL.ICommentService commentService = new CommentService())
+            {
+                var comments = await commentService.GetAllAsync(false)
+
+                    .OrderByDescending(m => m.CreateTime)
+                    .Take(3)
+                    .Select(m => new Dto.CommentDto()
+                    {
+                        Id = m.Id,
+                        ArticleId = m.ArticleId,
+                        Content = m.Content,
+                        CreateTime = m.CreateTime,
+                        Name = m.User.SiteName
+                    }).ToListAsync();
+                var articleResult = new List<Article>();
+                using (IDAL.IArticleService articleService = new ArticleService())
+                {
+                 
+
+                    foreach (var item in comments)
+                    {
+                        var articles = await articleService.GetAllAsync(false)
+
+                             .Where(c => c.Id == item.ArticleId && c.UserId == usersId)
+                          
+                             .ToListAsync();
+                        var articleArray = articles.Select(m => new Article()
+                        {
+                            Id = m.Id,
+                            Title = m.Title
+                        }).ToArray();
+                        for (int i = 0; i < articleArray.Length; i++)
+                        {
+                            articleResult.Add(articleArray[i]);
+                        }
+                      
+                    }
+                    return articleResult;
+                }
+
+            }
+
+
+
+
+
+        }
     }
 }
+
+#endregion
+

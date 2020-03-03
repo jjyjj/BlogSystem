@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="~/static/css/font_family.css" />
     <link rel="stylesheet" href="~/static/css/styles.css">
 
+  
+
     <!--[if lt IE 9]> <script src="~/static/js/html5shiv.js"></script> <![endif]-->
 </head>
 
@@ -58,15 +60,17 @@
             </div>
         </nav>
     </header>
+
+ 
     <main id="main">
 
-        <div class="container">
+        <div class="container " style="background-color:#F7F7F7">
 
             <div class="row topspace">
 
                 <!-- Article main content -->
                 <article class="col-sm-11 maincontent">
-                    <header class="entry-header">
+                    <header class="entry-header" id="">
                         <h1 class="entry-title"><a href="#" rel="bookmark"> @Html.DisplayFor(model => model.Title)</a></h1>
                         <div style="width:60%;margin: 20px auto ">
                             <ul class="nav-justified nav">
@@ -85,8 +89,9 @@
                         <p>@Html.Raw(Model.Content)</p>
                     </div>
 
-                    <footer>
+                    <footer class="lift-target">
                         <div class="row">
+
                             <div class="col-md-4 text-left">
                                 <p>
                                     本文作者为 @Model.Name ，如需转载，请说明;
@@ -107,9 +112,41 @@
 
                             </div>
                         </div>
+                  
 
-
-                        <div style="margin:15px">
+                        <div style="margin:15px" class="p1" data-asyncload>
+                            <span class="share">
+                                一键分享
+                                <div  class="share_content">
+                                    <!-- baidu Button BEGIN -->
+                                    <div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1525756207513">
+                                        <a href="#" class="bds_more" data-cmd="more"></a>
+                                        <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                                        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                        <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+                                        <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                                        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                    </div>
+                                    <script>
+                                        window._bd_share_config = {
+                                            "common": {
+                                                "bdSnsKey": {},
+                                                "bdText": "",
+                                                "bdMini": "2",
+                                                "bdMiniList": false,
+                                                "bdPic": "",
+                                                "bdStyle": "0",
+                                                "bdSize": "16"
+                                            },
+                                            "share": {}
+                                        };
+                                        with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src =
+                                            'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() /
+                                                36e5)];
+                                    </script>
+                                    <!-- baidu Button END -->
+                                </div>
+                            </span>
                             <div class="navbar-collapse collapse">
 
                                 <ul class="nav navbar-nav">
@@ -143,64 +180,65 @@
                                 <div class="nav-next"><a href="#">&rarr; 下一篇</a></div>
                                 <div class="nav-next"> @Html.ActionLink("返回列表页", "ArticleList2")</div>
                             </div>
-                        </nav>
-                        <!-- #comment-nav-below -->
-                        <br />
+                        </nav> 
+                       
+                            <!-- #comment-nav-below -->
+                            <br />
 
-                        <br />
-                        <h4 class="comments-title"> <span class="glyphicon glyphicon-comment"></span> 留下你的评论</h4>
-                        <a href="#comment-form" class="leave-comment"></a>
-                        <input type="text" name="txtComment" id="txtComment" value="" placeholder="请输入您的评论" />
-                        <button class="btn btn-action" onclick="addComment()"> 发表评论</button>
+                            <br />
+                            <h4 class="comments-title"> <span class="glyphicon glyphicon-comment"></span> 留下你的评论</h4>
+                            <a href="#comment-form" class="leave-comment"></a>
+                            <input type="text" name="txtComment" id="txtComment" value="" placeholder="请输入您的评论" />
+                            <button class="btn btn-action" onclick="addComment()"> 发表评论</button>
 
-                        <ol class="comments-list">
-                            @foreach (var commnet in ViewBag.Comments)
-                            {
-                                <li class="comment">
-                                    <div>
-                                        @using System.Text;
-                                        @{
-                                            string src = Model.ImagePath;
+                            <ol class="comments-list">
+                                @foreach (var commnet in ViewBag.Comments)
+                                {
+                                    <li class="comment">
+                                        <div>
+                                            @using System.Text;
+                                            @{
+                                                string src = Model.ImagePath;
 
-                                            string[] srcArry = src.Split('/');
-                                        }
+                                                string[] srcArry = src.Split('/');
+                                            }
 
-                                        <img src="@Html.Raw("/"+srcArry[1].ToString()+"/"+srcArry[2].ToString())" alt="Avatar" class="avatar">
+                                            <img src="@Html.Raw("/"+srcArry[1].ToString()+"/"+srcArry[2].ToString())" alt="Avatar" class="avatar">
 
-                                        <div class="comment-meta">
-                                            <span class="author"><a href="#"> @commnet.Name</a></span>
-                                            <span class="date"><a href="#">@commnet.CreateTime</a></span>
-                                            <span class="reply"><a href="#">回复</a></span>
+                                            <div class="comment-meta">
+                                                <span class="author"><a href="#"> @commnet.Name</a></span>
+                                                <span class="date"><a href="#">@commnet.CreateTime</a></span>
+                                                <span class="reply"><a href="#">回复</a></span>
+                                            </div>
+                                            <div class="comment-body">
+                                                @commnet.Content
+                                            </div>
                                         </div>
-                                        <div class="comment-body">
-                                            @commnet.Content
-                                        </div>
+
+                                        @*<ul class="children">
+                            <li class="comment">
+                                <div>
+                                    <img src="~/~/static/images/avatar_man.png" alt="Avatar" class="avatar">
+
+                                    <div class="comment-meta">
+                                        <span class="author"><a href="#">John Doe</a></span>
+                                        <span class="date"><a href="#">January 22, 2011 at 4:55 pm</a></span>
+                                        <span class="reply"><a href="#">回复</a></span>
+                                    </div>
+                                    <!-- .comment-meta -->
+
+                                    <div class="comment-body">
+                                        Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus.
                                     </div>
 
-                                    @*<ul class="children">
-                                            <li class="comment">
-                                                <div>
-                                                    <img src="~/~/static/images/avatar_man.png" alt="Avatar" class="avatar">
+                                    <!-- .comment-body -->
+                                </div>
+                            </li>
+                        </ul>*@
 
-                                                    <div class="comment-meta">
-                                                        <span class="author"><a href="#">John Doe</a></span>
-                                                        <span class="date"><a href="#">January 22, 2011 at 4:55 pm</a></span>
-                                                        <span class="reply"><a href="#">回复</a></span>
-                                                    </div>
-                                                    <!-- .comment-meta -->
-
-                                                    <div class="comment-body">
-                                                        Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere tristique sem, eu ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus.
-                                                    </div>
-
-                                                    <!-- .comment-body -->
-                                                </div>
-                                            </li>
-                                        </ul>*@
-
-                                </li>
-                            }
-                        </ol>
+                                    </li>
+                                }
+                            </ol>
                     </div>
 
                 </div>
@@ -212,7 +250,11 @@
     <script type="text/javascript" src="~/static/js/jquery.min.js"></script>
     <script type="text/javascript" src="~/static/js/bootstrap.min.js"></script>
     <script src="~/static/js/template.js"></script>
+   
+   
     <script>
+
+
     var articleId='@Model.Id';
     function btnGoodHandler(btn) {
         $.ajax({
@@ -246,7 +288,8 @@
             alert("添加评论成功");
             location.reload();
         });
-    }
+        }
+
     </script>
 </body>
 

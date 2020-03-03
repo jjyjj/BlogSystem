@@ -82,6 +82,10 @@ namespace BlogSystem.MVCSite.Controllers
             var dataCount = await articleMgr.GetDataCount(userid);
             ViewBag.User = await new UserManager().GetOneUserById(userid);
 
+            //ViewBag.Categories = await new BlogCategoryManager().GetAllCategoriesForAticleByUserId(userid);
+            ViewBag.Articles = await new ArticleManager().GetNewArticleForCommentByUserId(userid);
+            ViewBag.HotArticles = await new ArticleManager().GetHotArticleByUsersId(userid);
+
             return View(new PagedList<Dto.ArticleDto>(artciles, pageIndex, pageSize, dataCount));
         }
 

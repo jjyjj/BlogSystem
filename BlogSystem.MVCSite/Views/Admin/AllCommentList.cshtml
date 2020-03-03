@@ -28,7 +28,7 @@
                 <div class="layui-form-item ">
                     <div class="layui-row">
                         <div class="layui-col-xs4">
-                           
+
                         </div>
                         <div class="layui-col-xs4">
                             <div class="grid-demo">
@@ -106,8 +106,8 @@
                                                 </span>
                                             </div>
                                         </th>
-                                        
-                                       
+
+
 
                                         <th>
                                             <div class="layui-table-cell laytable-cell-1-0-0">
@@ -115,7 +115,7 @@
 
                                             </div>
                                         </th>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -129,17 +129,17 @@
                                                 <div class="layui-table-cell" style="width:200px"> @Html.DisplayFor(modelItem => item.Content)</div>
                                             </td>
                                             <td>
-                                                <div class="layui-table-cell"> 
+                                                <div class="layui-table-cell">
                                                     <a href="../article/articledetails/@item.ArticleId">@Html.DisplayFor(modelItem => item.ArticleTitles)</a>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.CreateTime)</div>
                                             </td>
-                                           
+
                                             <td style="text-align:center">
-                                                
-                                                <a class=""><i class="glyphicon glyphicon-remove"></i></a>
+
+                                                <a class="" onclick="deleteComment('@item.Id')"><i class="glyphicon glyphicon-remove"></i></a>
                                             </td>
                                         </tr>
                                     }
@@ -193,6 +193,24 @@
 
             });
         });
+        function deleteComment(commentId) {
+
+            $.ajax({
+                url: "../Admin/DeleteOneCommentById",
+                type: "post",
+                data: {
+                    Id: commentId
+
+                }
+            }).done(() => {
+                alert("已成功删除");
+
+                location.reload();
+            });
+
+
+        }
+
     </script>
 
 </body>

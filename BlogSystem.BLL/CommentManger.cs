@@ -13,9 +13,25 @@ namespace BlogSystem.BLL
     public class CommentManger : ICommentManager
     {
 
-        public Task<List<CommentDto>> GetCommentsByUsersId(Guid userId)
+        public  Task<List<CommentDto>> GetCommentsByUsersId(Guid userId)
         {
             throw new NotImplementedException();
+            //using (var commentService = new CommentService())
+            //{
+
+            //    var list = await commentService
+            //        .GetAllByPageOrderAsync(false)
+            //        .Select(m => new CommentDto()
+            //        {
+            //            Id = m.Id,
+            //            Content = m.Content,
+            //            CreateTime = m.CreateTime,
+            //            UserId = m.User.Id,
+            //            User = m.User,
+            //            ArticleId = m.ArticleId
+            //        }).Where(m => m.UserId == userId).ToListAsync();
+            //    return list;
+            //}
         }
         /// <summary>
         /// 获取所有评论

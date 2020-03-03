@@ -100,7 +100,19 @@ namespace BlogSystem.MVCSite.Controllers
             return View(new PagedList<Dto.CommentDto>(commetns, pageIndex, pageSize, dataCount));
 
         }
-       
+        [HttpPost]
+        public async Task<ActionResult> DeleteOneCommentById(Guid? id)
+        {
+
+            IBLL.IArticleManager articleManager = new ArticleManager();
+
+            await articleManager.RemoveComment(id.Value);
+          
+                return Json(new { result = "下架成功" });
+           
+
+
+        }
 
     }
 }

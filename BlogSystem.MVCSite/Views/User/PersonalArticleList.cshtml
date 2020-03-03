@@ -160,7 +160,7 @@
                                             <a target="_blank" class="layui-btn layui-btn-xs" href="../Article/EditArticle/@item.Id">编辑</a>
                                             |   <a target="_blank" class="layui-btn layui-btn layui-btn-xs" href="../Article/ArticleDetails/@item.Id" style="background-color:dodgerblue">详情</a>
                                             |
-                                            <a onclick="deleteArticle('@item.Id')" lay-event="del" class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
+                                            <a onclick="deleteArticle('@item.Id',true)" lay-event="del" class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
 
 
                                         </td>
@@ -208,17 +208,26 @@
     <script>
 
 
-        function deleteArticle(articleId) {
+        function deleteArticle(articleId, state) {
 
             $.ajax({
                 url: "../Article/DeleteOneArtcileById",
                 type: "post",
                 data: {
                     Id: articleId,
-                    isConfirm: true
+                    isConfirm: state
                 }
             }).done(() => {
-                alert("删除成功");
+
+                if (state) {
+                    alert("已成功删除");
+                }
+                else {
+                    alert("博客已成功下架");
+
+
+                }
+
                 location.reload();
             });
 
