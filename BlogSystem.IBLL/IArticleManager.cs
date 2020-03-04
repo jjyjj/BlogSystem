@@ -36,7 +36,7 @@ namespace BlogSystem.IBLL
         //查看评论
         Task<List<Dto.CommentDto>> GetCommentsByArticleId(Guid articleId);
         //获取当前用户评论
-        Task<List<Dto.CommentDto>> GetCommentsByUsersId(Guid usersId);
+        Task<List<Dto.CommentDto>> GetCommentsByUsersId(Guid usersId,string str);
         //获取当前用户被最新评论的文章
         Task<List<Article>> GetNewArticleForCommentByUserId(Guid usersId);
         

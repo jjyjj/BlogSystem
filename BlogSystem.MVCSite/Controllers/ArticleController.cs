@@ -100,7 +100,7 @@ namespace BlogSystem.MVCSite.Controllers
             var dataCount = await articleMgr.GetDataCount();
             foreach (var item in articles)
             {
-              
+
                 item.TotalComments = await articleMgr.GetCommentsForArticleCountByArticleId(item.Id);
             }
 
@@ -149,6 +149,7 @@ namespace BlogSystem.MVCSite.Controllers
         }
         //编辑文章
         [HttpPost]
+        [ValidateInput(false)]
         public async Task<ActionResult> EditArticle(EditArtcileViewModel model)
         {
             if (ModelState.IsValid)
@@ -192,29 +193,31 @@ namespace BlogSystem.MVCSite.Controllers
         [HttpPost]
         public async Task<ActionResult> AddComment(CreateCommentViewModel model)
         {
+
             var userid = Guid.Parse(Session["userid"].ToString());
             IBLL.IArticleManager articleManager = new ArticleManager();
             await articleManager.CreateComment(userid, model.Id, model.Content);
             return Json(new { reslut = "ok" });
+
         }
         //删除文章
         [HttpPost]
         public async Task<ActionResult> DeleteOneArtcileById(Guid? id, bool isConfirm)
         {
-          
-                IBLL.IArticleManager articleManager = new ArticleManager();
 
-                await articleManager.RemoveArticle(id.Value, isConfirm);
-                if (isConfirm)
-                {
-                    return Json(new { result = "删除成功" });
+            IBLL.IArticleManager articleManager = new ArticleManager();
 
-                }
-                else
-                {
-                    return Json(new { result = "下架成功" });
-                }
-          
+            await articleManager.RemoveArticle(id.Value, isConfirm);
+            if (isConfirm)
+            {
+                return Json(new { result = "删除成功" });
+
+            }
+            else
+            {
+                return Json(new { result = "下架成功" });
+            }
+
 
 
         }

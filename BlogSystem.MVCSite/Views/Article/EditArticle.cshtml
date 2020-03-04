@@ -182,7 +182,9 @@
                                 </div>
 
                                 <div id="editor" style="height:600px;max-height: 1000px;">
-                                    @Html.Raw(Model.Content)
+                                
+                               
+                                    @(new HtmlString(Model.Content))
                                 </div>
                             </div>
                             <input type="hidden" name="Content" id="Content" value="" />

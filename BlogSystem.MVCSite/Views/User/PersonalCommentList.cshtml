@@ -34,19 +34,12 @@
                             <div class="grid-demo">
                                 <div class="grid-demo grid-demo-bg1">
                                     <div class="input-group ">
-                                        <input type="text" class="form-control" placeholder="">
+                                        <input type="text" id="str" class="form-control" placeholder="请输入被评论文章的标题">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default
-                        dropdown-toggle" data-toggle="dropdown">
-                                                快速搜索
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu pull-right">
-                                                <li>
-                                                    <a href="#">功能</a>
-                                                </li>
+                                            <input type="button" onclick="searchComment()" class="btn btn-default
+                        dropdown-toggle" value="快速搜索">
 
-                                            </ul>
+
                                         </div><!-- /btn-group -->
                                     </div>
                                 </div>
@@ -178,6 +171,18 @@ layui.use('table', function(){
 
   });
 });
+        function searchComment() {
+            var str = $('#str').val();
+            $.ajax({
+                url: "../../User/PersonalCommentList",
+                type: "get",
+                data: {
+                    str: str,
+
+                }
+            });
+
+        }
     </script>
 
 </body>

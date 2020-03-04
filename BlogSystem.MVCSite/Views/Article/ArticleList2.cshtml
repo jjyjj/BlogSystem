@@ -59,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="item">
+                    <div class="item ">
                         <img src="~/Image/Banners/2019071418.jpg" />
                         <div class="carousel-caption">
                             <h3 id="logo" class="text-center">
@@ -180,9 +180,8 @@
                             </header>
                             <div class="entry-content  ">
                                 <div class="big">
-
-                                    @Html.Raw(item.Content)
-
+                                  
+                                    @(new HtmlString(item.Content))
                                 </div>
 
                                 <span style="float:right" class="more-link">@Html.ActionLink("阅读更多", "ArticleDetails", new { id = item.Id })&#8230;</span>
@@ -270,7 +269,7 @@
     <script src="~/static/js/template.js"></script>
     <script>
       
-
+      
         function btnDelete(btn) {
             if (confirm("您确定要删除吗？")) {
                 $.ajax({

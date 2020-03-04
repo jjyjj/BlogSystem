@@ -184,19 +184,45 @@ namespace BlogSystem.MVCSite.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> PersonalCommentList()
+        public async Task<ActionResult> PersonalCommentList(string str)
         {
-
-
-
             var articleMgr = new ArticleManager();
             var userid = Guid.Parse(Session["userid"].ToString());
-            //当前用户第n页数据
-            var comments = await new ArticleManager().GetCommentsByUsersId(userid);
-
+            
+            var comments = await new ArticleManager().GetCommentsByUsersId(userid,str);
+            ViewBag.comments = comments;
             ViewBag.Users = await new UserManager().GetOneUserById(userid);
 
             return View(comments);
+        }
+
+
+
+        [HttpGet]
+        public bool Del()
+        {
+            try
+            {
+                Session.RemoveAll();
+
+                HttpCookie hc = Request.Cookies["loginName"];
+                hc.Expires = DateTime.Now.AddDays(-1);
+                Response.AppendCookie(hc);
+
+                HttpCookie hc1 = Request.Cookies["userId"];
+                hc1.Expires = DateTime.Now.AddDays(-1);
+                Response.AppendCookie(hc1);
+                HttpCookie hc2 = Request.Cookies["type"];
+                hc2.Expires = DateTime.Now.AddDays(-1);
+                Response.AppendCookie(hc2);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
         }
 
     }

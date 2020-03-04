@@ -142,7 +142,10 @@
                                             <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.Title)</div>
                                         </td>
                                         <td>
-                                            <div class="layui-table-cell" style="width:200px"> @Html.DisplayFor(modelItem => item.Content)</div>
+                                            <div class="layui-table-cell" style="width:200px">
+
+                                                @Html.DisplayFor(modelItem => item.Content)
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="layui-table-cell"> @Html.DisplayFor(modelItem => item.CreateTime)</div>
@@ -154,7 +157,7 @@
                                             <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.BadCount)</div>
                                         </td>
                                         <td>
-                                            <div class="layui-table-cell">     @Html.DisplayFor(modelItem => item.BrowseCount)</div>
+                                            <div class="layui-table-cell">   @Html.DisplayFor(modelItem => item.BrowseCount) </div>
                                         </td>
                                         <td>
                                             <a target="_blank" class="layui-btn layui-btn-xs" href="../Article/EditArticle/@item.Id">编辑</a>

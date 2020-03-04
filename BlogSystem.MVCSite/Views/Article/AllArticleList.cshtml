@@ -97,7 +97,12 @@
                                             <span class="cat"><i class=""></i>&nbsp;&nbsp;<span onclick="BrowseCountAdd('@item.Id')">@Html.ActionLink("" + @Html.DisplayFor(modelItem => item.Title) + "", "ArticleDetails", new { id = item.Id })</span></span>
 
                                         </div>
-                                        <div class="fontPage-size">@item.Content</div>
+                                        <div class="fontPage-size">
+                                            @item.Content
+
+                                            
+
+                                        </div>
 
 
 

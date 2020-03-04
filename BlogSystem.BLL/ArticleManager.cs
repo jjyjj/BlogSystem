@@ -147,7 +147,7 @@ namespace BlogSystem.BLL
                     }).ToListAsync();
                 foreach (var item in list)
                 {
-                    item.Content = CommonMethods.SplitString(item.Content, 300, "...");
+                    item.Content = CommonMethods.SplitString(item.Content, 150, "...");
                 }
                 using (IArticleToCategoryService articleToCategoryService = new ArticleToCategoryService())
                 {
@@ -181,9 +181,11 @@ namespace BlogSystem.BLL
         {
             using (var articleService = new ArticleService())
             {
+               
+
                 var list = await articleService
                     .GetAllByPageOrderAsync(all, pageSize, pageIndex, false)
-
+               
                     .Select(m => new ArticleDto()
                     {
                         Title = m.Title,
@@ -240,6 +242,7 @@ namespace BlogSystem.BLL
                     else
                     {
                         await articleToCategoryService.RemoveAsync(articleToCategoryId, saved: false);
+                        
                     }
                 }
 
@@ -363,6 +366,8 @@ namespace BlogSystem.BLL
         //评论
         public async Task CreateComment(Guid userId, Guid articleId, string content)
         {
+
+
             using (IDAL.ICommentService commentService = new CommentService())
             {
                 await commentService.CreateAsync(new Comment()
@@ -397,23 +402,43 @@ namespace BlogSystem.BLL
 
 
         //根据用户id获取所有评论      
-        public async Task<List<Dto.CommentDto>> GetCommentsByUsersId(Guid usersId)
+        public async Task<List<Dto.CommentDto>> GetCommentsByUsersId(Guid usersId,string str)
         {
-
-
+          
             using (IDAL.ICommentService commentService = new CommentService())
             {
-                var list = await commentService.GetAllOrderAsync(false, asc: false)
-                     .Where(m => m.UserId == usersId)
-                     .Include(m => m.User)
-                     .Select(m => new Dto.CommentDto()
-                     {
-                         Id = m.Id,
-                         ArticleId = m.ArticleId,
-                         Content = m.Content,
-                         CreateTime = m.CreateTime,
-                         Name = m.User.SiteName
-                     }).ToListAsync();
+                List<CommentDto> list = new List<CommentDto>();
+                if (str!=null)
+                {
+                    str = str.Trim();
+                    list = await commentService.GetAllOrderAsync(false, asc: false)
+                   .Where(m => m.UserId == usersId)
+                   .Where(m=>m.Article.Title.Contains(str))
+                   .Include(m => m.User)
+                   .Select(m => new Dto.CommentDto()
+                   {
+                       Id = m.Id,
+                       ArticleId = m.ArticleId,
+                       Content = m.Content,
+                       CreateTime = m.CreateTime,
+                       Name = m.User.SiteName
+                   }).ToListAsync();
+                }
+                else
+                {
+                    list = await commentService.GetAllOrderAsync(false, asc: false)
+                   .Where(m => m.UserId == usersId)
+                   .Include(m => m.User)
+                   .Select(m => new Dto.CommentDto()
+                   {
+                       Id = m.Id,
+                       ArticleId = m.ArticleId,
+                       Content = m.Content,
+                       CreateTime = m.CreateTime,
+                       Name = m.User.SiteName
+                   }).ToListAsync();
+                }
+              
                 using (IArticleService articleService = new ArticleService())
                 {
                     foreach (var commentDto in list)
